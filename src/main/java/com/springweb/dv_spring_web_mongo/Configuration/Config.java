@@ -1,15 +1,17 @@
-package com.springweb.dv_spring_web_mongo;
+package com.springweb.dv_spring_web_mongo.Configuration;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.client.MongoClient;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClients;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 @Configuration
-public class config {
+@ComponentScan(basePackages = "com.springweb.dv_spring_web_mongo")
+public class Config {
 
     @Bean
     public MongoClient mongoClient(){
@@ -24,4 +26,5 @@ public class config {
     public MongoTemplate mongoTemplate(){
         return new MongoTemplate(mongoClient(),"projects");
     }
+
 }

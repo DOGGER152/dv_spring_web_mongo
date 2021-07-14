@@ -1,12 +1,13 @@
-package com.model;
+package com.springweb.dv_spring_web_mongo.Model;
+
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "projects")
-public class ProjectModel {
+public class Project {
 
-    public ProjectModel(String projectKey, String projectName) {
+    public Project(String projectKey, String projectName) {
         this.projectName = projectName;
         this.projectKey = projectKey;
     }
@@ -26,10 +27,13 @@ public class ProjectModel {
         this.projectName = projectName;
     }
 
+    public int getId() {
+        return id;
+    }
 
     @Override
     public String toString() {
-        return "projectModel{" +
+        return "project{" +
                 "id=" + id +
                 ", projectName='" + projectName + '\'' +
                 '}';
