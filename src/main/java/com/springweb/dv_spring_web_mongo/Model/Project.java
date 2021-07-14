@@ -1,12 +1,14 @@
 package com.springweb.dv_spring_web_mongo.Model;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "projects")
+@Document(collection = "LearningMongo")
 public class Project {
 
+    @Autowired
     public Project(String projectKey, String projectName) {
         this.projectName = projectName;
         this.projectKey = projectKey;

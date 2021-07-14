@@ -1,4 +1,4 @@
-package com.springweb.dv_spring_web_mongo.Configuration;
+package com.springweb.dv_spring_web_mongo.configuration;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.client.MongoClient;
@@ -7,6 +7,7 @@ import com.mongodb.client.MongoClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 @Configuration
@@ -15,7 +16,7 @@ public class Config {
 
     @Bean
     public MongoClient mongoClient(){
-        ConnectionString connectionString = new ConnectionString("mongodb://localhost:8080");
+        ConnectionString connectionString = new ConnectionString("mongodb+srv://alex:Alex_coder152@cluster0.wdxsl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority\"");
         MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
                 .build();
@@ -24,7 +25,6 @@ public class Config {
 
     @Bean
     public MongoTemplate mongoTemplate(){
-        return new MongoTemplate(mongoClient(),"projects");
+        return new MongoTemplate(mongoClient(),"dv_spring_web_mongo");
     }
-
 }
