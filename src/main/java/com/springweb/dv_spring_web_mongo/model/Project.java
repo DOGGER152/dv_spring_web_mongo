@@ -1,36 +1,38 @@
-package com.springweb.dv_spring_web_mongo.Model;
+package com.springweb.dv_spring_web_mongo.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+import javax.annotation.processing.Generated;
 
 @Document(collection = "LearningMongo")
 public class Project {
 
-    @Autowired
-    public Project(String projectKey, String projectName) {
-        this.projectName = projectName;
-        this.projectKey = projectKey;
-    }
+    public Project() {}
 
     @Id
-    private int id;
-
-    private String projectKey;
+    private String id;
 
     private String projectName;
 
-    public String getProjectName() {
-        return projectName;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
+    }
+
+    public String getProjectName() {
+        return projectName;
     }
 
     @Override

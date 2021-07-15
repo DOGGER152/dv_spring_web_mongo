@@ -16,7 +16,7 @@ public class Config {
 
     @Bean
     public MongoClient mongoClient(){
-        ConnectionString connectionString = new ConnectionString("mongodb+srv://alex:Alex_coder152@cluster0.wdxsl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority\"");
+        ConnectionString connectionString = new ConnectionString("mongodb+srv://alex:Alex_coder152@cluster0.wdxsl.mongodb.net/myFirstDatabase?retryWrites=true\"");
         MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
                 .build();
