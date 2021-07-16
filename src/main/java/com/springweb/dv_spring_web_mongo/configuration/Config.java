@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 @Configuration
-@ComponentScan(basePackages = "com.springweb.dv_spring_web_mongo")
 public class Config {
 
     @Bean

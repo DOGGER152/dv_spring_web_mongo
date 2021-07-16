@@ -10,36 +10,36 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@org.springframework.web.bind.annotation.RestController
-@RequestMapping("/api")
-public class RestController {
+@RestController
+@RequestMapping("/api/projects")
+public class ProjectController {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    @GetMapping("/projects")
+    @GetMapping()
     public List<Project> getAllProjects(){
         List<Project> list = mongoTemplate.findAll(Project.class);
         return list;
     }
 
-    @GetMapping("projects/{id}")
+    @GetMapping("/{id}")
     public Project getProjectById(@PathVariable String id){
         Query search = new Query(Criteria.where("_id").is(id)) ;
         Project project  = mongoTemplate.findOne(search, Project.class);
         return project;
     }
 
-    @PostMapping("/projects")
+    @PostMapping()
     public void addNewProject(@RequestBody Project project){
         mongoTemplate.save(project);
     }
-    @PutMapping("/projects/{id}")
+    @PutMapping("/{id}")
     public void changeProjectName(@RequestBody Project project, @PathVariable String id){
         Query search = new Query(Criteria.where("_id").is(id));
         mongoTemplate.updateFirst(search, Update.update("projectName",project.getProjectName()),Project.class);
     }
 
-    @DeleteMapping("/projects/{id}")
+    @DeleteMapping("/{id}")
     public void deleteProject(@PathVariable String id){
         Query search = new Query(Criteria.where("_id").is(id));
         mongoTemplate.remove(search,Project.class);
