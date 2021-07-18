@@ -4,18 +4,20 @@ import com.mongodb.ConnectionString;
 import com.mongodb.client.MongoClient;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClients;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.context.annotation.*;
 import org.springframework.data.mongodb.core.MongoTemplate;
-
+@PropertySource("classpath:application.properties")
 @Configuration
 public class Config {
 
+@Value("${mongo.connectionString}")
+private String connectionString;
+
     @Bean
     public MongoClient mongoClient(){
-        ConnectionString connectionString = new ConnectionString("mongodb+srv://alex:Alex_coder152@cluster0.wdxsl.mongodb.net/myFirstDatabase?retryWrites=true\"");
+        ConnectionString connectionString = new ConnectionString(this.connectionString);
         MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
                 .build();
