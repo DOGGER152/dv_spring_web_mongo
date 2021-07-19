@@ -1,5 +1,6 @@
 package com.springweb.dv_spring_web_mongo.repository;
 
+import com.springweb.dv_spring_web_mongo.DTO.ProjectDTO;
 import com.springweb.dv_spring_web_mongo.model.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -15,19 +16,19 @@ public class ProjectRepositoryCustom {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public List<Project> findAll(){
+    public List<Project> getAllProjects(){
         List<Project> list = mongoTemplate.findAll(Project.class);
         return list;
     }
 
-    public Project findById(String id){
+    public Project getProjectById(String id){
         Query search = new Query(Criteria.where("_id").is(id)) ;
-        Project project  = mongoTemplate.findOne(search, Project.class);
-        return project;
+        ProjectDTO projectDTO  = mongoTemplate.findOne(search, ProjectDTO.class);
+        return projectDTO.convertToProject();
     }
 
-    public void insert(Project project){
-        mongoTemplate.save(project);
+    public void addNewProject(ProjectDTO projectDTO){
+        mongoTemplate.save(projectDTO.convertToProject());
     }
 
     public void changeProjectName(Project project, String id){
@@ -36,7 +37,7 @@ public class ProjectRepositoryCustom {
     }
 
 
-    public void deleteById(String id){
+    public void deleteProject( String id){
         Query search = new Query(Criteria.where("_id").is(id));
         mongoTemplate.remove(search,Project.class);
     }
