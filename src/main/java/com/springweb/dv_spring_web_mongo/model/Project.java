@@ -15,6 +15,11 @@ public class Project {
 
     public Project() {}
 
+    public Project(String id, String projectName) {
+        this.id = id;
+        this.projectName = projectName;
+    }
+
     @Id
     private String id;
 
@@ -42,5 +47,9 @@ public class Project {
                 "id=" + id +
                 ", projectName='" + projectName + '\'' +
                 '}';
+    }
+
+    public ProjectDTO convertToDTO(){
+        return new ProjectDTO(this.id,this.projectName);
     }
 }

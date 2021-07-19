@@ -1,5 +1,6 @@
 package com.springweb.dv_spring_web_mongo.controller;
 
+import com.springweb.dv_spring_web_mongo.DTO.ProjectDTO;
 import com.springweb.dv_spring_web_mongo.model.Project;
 import com.springweb.dv_spring_web_mongo.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,8 @@ public class ProjectController {
     }
 
     @PostMapping()
-    public void addNewProject(@RequestBody Project project){
-        projectService.addNewProject(project);
+    public void addNewProject(@RequestBody ProjectDTO projectDTO){
+        projectService.addNewProject(projectDTO);
     }
 
     @PutMapping("/{id}")
