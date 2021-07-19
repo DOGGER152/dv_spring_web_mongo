@@ -1,11 +1,8 @@
 package com.springweb.dv_spring_web_mongo.controller;
 
 import com.springweb.dv_spring_web_mongo.model.Project;
+import com.springweb.dv_spring_web_mongo.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,35 +10,32 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/projects")
 public class ProjectController {
+
     @Autowired
-    private MongoTemplate mongoTemplate;
+    ProjectService projectService;
 
     @GetMapping()
     public List<Project> getAllProjects(){
-        List<Project> list = mongoTemplate.findAll(Project.class);
-        return list;
+        return projectService.getAllProjects();
     }
 
     @GetMapping("/{id}")
     public Project getProjectById(@PathVariable String id){
-        Query search = new Query(Criteria.where("_id").is(id)) ;
-        Project project  = mongoTemplate.findOne(search, Project.class);
-        return project;
+        return projectService.getProjectById(id);
     }
 
     @PostMapping()
     public void addNewProject(@RequestBody Project project){
-        mongoTemplate.save(project);
+        projectService.addNewProject(project);
     }
+
     @PutMapping("/{id}")
     public void changeProjectName(@RequestBody Project project, @PathVariable String id){
-        Query search = new Query(Criteria.where("_id").is(id));
-        mongoTemplate.updateFirst(search, Update.update("projectName",project.getProjectName()),Project.class);
+        projectService.changeProjectName(project,id);
     }
 
     @DeleteMapping("/{id}")
     public void deleteProject(@PathVariable String id){
-        Query search = new Query(Criteria.where("_id").is(id));
-        mongoTemplate.remove(search,Project.class);
+        projectService.deleteProject(id);
     }
 }
