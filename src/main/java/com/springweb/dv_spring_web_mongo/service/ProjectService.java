@@ -13,15 +13,15 @@ public class ProjectService {
     ProjectRepositoryCustom projectRepositoryCustom;
 
     public List<Project> getAllProjects(){
-        return projectRepositoryCustom.getAllProjects();
+        return projectRepositoryCustom.findAll();
     }
 
     public Project getProjectById(String id){
-        return projectRepositoryCustom.getProjectById(id);
+        return projectRepositoryCustom.findById(id);
     }
 
     public void addNewProject(Project project){
-        projectRepositoryCustom.addNewProject(project);
+        projectRepositoryCustom.insert(project);
     }
 
     public void changeProjectName(Project project,String id){
@@ -29,6 +29,6 @@ public class ProjectService {
     }
 
     public void deleteProject(String id){
-        projectRepositoryCustom.deleteProject(id);
+        projectRepositoryCustom.deleteById(id);
     }
 }

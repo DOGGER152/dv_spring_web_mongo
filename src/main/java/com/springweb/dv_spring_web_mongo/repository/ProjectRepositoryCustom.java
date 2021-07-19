@@ -15,18 +15,18 @@ public class ProjectRepositoryCustom {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public List<Project> getAllProjects(){
+    public List<Project> findAll(){
         List<Project> list = mongoTemplate.findAll(Project.class);
         return list;
     }
 
-    public Project getProjectById(String id){
+    public Project findById(String id){
         Query search = new Query(Criteria.where("_id").is(id)) ;
         Project project  = mongoTemplate.findOne(search, Project.class);
         return project;
     }
 
-    public void addNewProject(Project project){
+    public void insert(Project project){
         mongoTemplate.save(project);
     }
 
@@ -36,7 +36,7 @@ public class ProjectRepositoryCustom {
     }
 
 
-    public void deleteProject( String id){
+    public void deleteById(String id){
         Query search = new Query(Criteria.where("_id").is(id));
         mongoTemplate.remove(search,Project.class);
     }
