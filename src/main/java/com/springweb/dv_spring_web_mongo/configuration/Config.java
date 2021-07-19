@@ -15,6 +15,9 @@ public class Config {
 @Value("${mongo.connectionString}")
 private String connectionString;
 
+@Value("${mongo.DBName}")
+private String dbName;
+
     @Bean
     public MongoClient mongoClient(){
         ConnectionString connectionString = new ConnectionString(this.connectionString);
@@ -26,6 +29,6 @@ private String connectionString;
 
     @Bean
     public MongoTemplate mongoTemplate(){
-        return new MongoTemplate(mongoClient(),"dv_spring_web_mongo");
+        return new MongoTemplate(mongoClient(),this.dbName);
     }
 }
