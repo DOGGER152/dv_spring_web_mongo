@@ -1,14 +1,9 @@
 package com.springweb.dv_spring_web_mongo.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.springweb.dv_spring_web_mongo.DTO.ProjectDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.springweb.dv_spring_web_mongo.projectDto.ProjectDTO;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
-
-import javax.annotation.processing.Generated;
 
 @Document(collection = "LearningMongo")
 public class Project {

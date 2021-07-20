@@ -1,4 +1,4 @@
-package com.springweb.dv_spring_web_mongo.DTO;
+package com.springweb.dv_spring_web_mongo.projectDto;
 
 import com.springweb.dv_spring_web_mongo.model.Project;
 import org.springframework.data.annotation.Id;
