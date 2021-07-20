@@ -1,6 +1,6 @@
 package com.springweb.dv_spring_web_mongo.repository;
 
-import com.springweb.dv_spring_web_mongo.DTO.ProjectDTO;
+import com.springweb.dv_spring_web_mongo.projectDto.ProjectDTO;
 import com.springweb.dv_spring_web_mongo.model.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
