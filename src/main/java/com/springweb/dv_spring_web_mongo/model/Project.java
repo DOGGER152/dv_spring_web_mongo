@@ -2,6 +2,7 @@ package com.springweb.dv_spring_web_mongo.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.springweb.dv_spring_web_mongo.DTO.ProjectDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
