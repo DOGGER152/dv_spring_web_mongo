@@ -16,23 +16,23 @@ public class ProjectController {
     ProjectService projectService;
 
     @GetMapping()
-    public List<Project> getAllProjects(){
+    public List<ProjectDTO> getAllProjects(){
         return projectService.getAllProjects();
     }
 
     @GetMapping("/{id}")
-    public Project getProjectById(@PathVariable String id){
+    public ProjectDTO getProjectById(@PathVariable String id){
         return projectService.getProjectById(id);
     }
 
     @PostMapping()
     public void addNewProject(@RequestBody ProjectDTO projectDTO){
-        projectService.addNewProject(projectDTO);
+            projectService.addNewProject(projectDTO);
     }
 
     @PutMapping("/{id}")
-    public void changeProjectName(@RequestBody Project project, @PathVariable String id){
-        projectService.changeProjectName(project,id);
+    public void changeProjectName(@RequestBody ProjectDTO projectDTO, @PathVariable String id){
+        projectService.changeProjectName(projectDTO.convertToProject(),id);
     }
 
     @DeleteMapping("/{id}")

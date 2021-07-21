@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -16,15 +17,17 @@ public class ProjectRepositoryCustom {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public List<Project> getAllProjects(){
+    public List<ProjectDTO> getAllProjects(){
         List<Project> list = mongoTemplate.findAll(Project.class);
-        return list;
+        List<ProjectDTO> list2 = new ArrayList<>();
+        for(Project project : list) list2.add(project.convertToDTO());
+        return list2;
     }
 
-    public Project getProjectById(String id){
+    public ProjectDTO getProjectById(String id){
         Query search = new Query(Criteria.where("_id").is(id)) ;
-        ProjectDTO projectDTO  = mongoTemplate.findOne(search, ProjectDTO.class);
-        return projectDTO.convertToProject();
+        Project project  = mongoTemplate.findOne(search, Project.class);
+        return project.convertToDTO();
     }
 
     public void addNewProject(ProjectDTO projectDTO){

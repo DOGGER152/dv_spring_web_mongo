@@ -13,11 +13,11 @@ public class ProjectService {
     @Autowired
     ProjectRepositoryCustom projectRepositoryCustom;
 
-    public List<Project> getAllProjects(){
+    public List<ProjectDTO> getAllProjects(){
         return projectRepositoryCustom.getAllProjects();
     }
 
-    public Project getProjectById(String id){
+    public ProjectDTO getProjectById(String id){
         return projectRepositoryCustom.getProjectById(id);
     }
 
