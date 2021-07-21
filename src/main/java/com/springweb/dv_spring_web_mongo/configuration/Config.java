@@ -8,18 +8,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.*;
 import org.springframework.data.mongodb.core.MongoTemplate;
+
 @PropertySource("classpath:application.properties")
 @Configuration
 public class Config {
 
-@Value("${mongo.connectionString}")
-private String connectionString;
+    @Value("${mongo.connectionString}")
+    private String connectionString;
 
-@Value("${mongo.DBName}")
-private String dbName;
+    @Value("${mongo.DBName}")
+    private String dbName;
 
     @Bean
-    public MongoClient mongoClient(){
+    public MongoClient mongoClient() {
         ConnectionString connectionString = new ConnectionString(this.connectionString);
         MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
@@ -28,7 +29,7 @@ private String dbName;
     }
 
     @Bean
-    public MongoTemplate mongoTemplate(){
-        return new MongoTemplate(mongoClient(),this.dbName);
+    public MongoTemplate mongoTemplate() {
+        return new MongoTemplate(mongoClient(), this.dbName);
     }
 }

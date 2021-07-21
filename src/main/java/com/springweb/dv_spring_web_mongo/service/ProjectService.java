@@ -12,23 +12,23 @@ public class ProjectService {
     @Autowired
     ProjectRepositoryCustom projectRepositoryCustom;
 
-    public List<Project> getAllProjects(){
+    public List<Project> getAllProjects() {
         return projectRepositoryCustom.findAll();
     }
 
-    public Project getProjectById(String id){
+    public Project getProjectById(String id) {
         return projectRepositoryCustom.findById(id);
     }
 
-    public void addNewProject(Project project){
+    public void addNewProject(Project project) {
         projectRepositoryCustom.insert(project);
     }
 
-    public void changeProjectName(Project project,String id){
-        projectRepositoryCustom.changeProjectName(project,id);
+    public void changeProjectName(Project project, String id) {
+        projectRepositoryCustom.changeProjectName(project, id);
     }
 
-    public void deleteProject(String id){
+    public void deleteProject(String id) {
         projectRepositoryCustom.deleteById(id);
     }
 }
