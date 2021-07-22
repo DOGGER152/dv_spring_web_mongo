@@ -8,15 +8,33 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Data
-@AllArgsConstructor(access = AccessLevel.PUBLIC)
-@Document(collection = "LearningMongo")
 public class Project {
+
+    public Project(String id, String projectName) {
+        this.id = id;
+        this.projectName = projectName;
+    }
 
     @Id
     private String id;
 
     private String projectName;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
 
     public ProjectDTO convertToDTO() {
         return new ProjectDTO(this.id, this.projectName);
