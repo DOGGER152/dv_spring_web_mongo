@@ -1,7 +1,6 @@
 package com.springweb.dv_spring_web_mongo.controller;
 
-import com.springweb.dv_spring_web_mongo.projectDto.ProjectDTO;
-import com.springweb.dv_spring_web_mongo.model.Project;
+import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
 import com.springweb.dv_spring_web_mongo.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,27 +15,27 @@ public class ProjectController {
     ProjectService projectService;
 
     @GetMapping()
-    public List<ProjectDTO> getAllProjects(){
+    public List<ProjectDTO> findAll() {
         return projectService.getAllProjects();
     }
 
     @GetMapping("/{id}")
-    public ProjectDTO getProjectById(@PathVariable String id){
+    public ProjectDTO findById(@PathVariable String id) {
         return projectService.getProjectById(id);
     }
 
     @PostMapping()
-    public void addNewProject(@RequestBody ProjectDTO projectDTO){
-            projectService.addNewProject(projectDTO);
+    public void insert(@RequestBody ProjectDTO projectDTO) {
+        projectService.addNewProject(projectDTO);
     }
 
     @PutMapping("/{id}")
-    public void changeProjectName(@RequestBody ProjectDTO projectDTO, @PathVariable String id){
-        projectService.changeProjectName(projectDTO.convertToProject(),id);
+    public void update(@RequestBody ProjectDTO projectDTO, @PathVariable String id) {
+        projectService.changeProjectName(projectDTO, id);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProject(@PathVariable String id){
+    public void delete(@PathVariable String id) {
         projectService.deleteProject(id);
     }
 }
