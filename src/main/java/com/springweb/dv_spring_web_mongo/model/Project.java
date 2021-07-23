@@ -2,7 +2,7 @@ package com.springweb.dv_spring_web_mongo.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.springweb.dv_spring_web_mongo.DTO.ProjectDTO;
+import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,5 +25,7 @@ public class Project {
 
     private String projectName;
 
-
+    public ProjectDTO convertToDTO(){
+        return new ProjectDTO(this.id,this.projectName);
+    }
 }
