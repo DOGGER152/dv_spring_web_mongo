@@ -42,8 +42,7 @@ public class ProjectService {
     }
 
     public void changeProjectName(ProjectDTO projectDTO, String id) {
-        Optional<Project> projectOptional = projectRepository.findById(id);
-        Project project = projectOptional.get();
+        Project project = projectRepository.findById(id).get();
         project.setProjectName(projectDTO.getProjectName());
         projectRepository.save(project);
     }
