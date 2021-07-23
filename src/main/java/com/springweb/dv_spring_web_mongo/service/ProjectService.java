@@ -52,7 +52,7 @@ public class ProjectService {
     public List<ProjectDTO> getAllProjects() {
         List<Project> list = projectRepository.findAll();
         List<ProjectDTO> listWithDto = new LinkedList<>();
-        for(Project project : list){
+        for (Project project : list) {
             listWithDto.add(project.convertToDTO());
         }
         return listWithDto;
