@@ -18,10 +18,7 @@ import java.util.Optional;
 public class ProjectService {
 
     @Autowired
-    ProjectRepository projectRepository;
-
-    @Autowired
-    MongoTemplate mongoTemplate;
+    private ProjectRepository projectRepository;
 
     public List<ProjectDTO> getAllProjects() {
         List<Project> list = projectRepository.findAll();
