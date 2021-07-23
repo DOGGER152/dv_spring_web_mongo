@@ -10,38 +10,12 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ProjectService {
-//    @Autowired
-//    ProjectRepositoryCustom projectRepositoryCustom;
-//
-//    public List<ProjectDTO> getAllProjects() {
-//        List<Project> list = projectRepositoryCustom.findAll();
-//        List<ProjectDTO> list2 = new ArrayList<>();
-//        for (Project project : list) list2.add(project.convertToDTO());
-//        return list2;
-//    }
-//
-//    public ProjectDTO getProjectById(String id) {
-//        return projectRepositoryCustom.findById(id).convertToDTO();
-//    }
-//
-//    public void addNewProject(ProjectDTO projectDTO) {
-//        projectRepositoryCustom.insert(projectDTO.convertToProject());
-//    }
-//
-//    public void changeProjectName(ProjectDTO projectDTO, String id) {
-//        projectRepositoryCustom.update(projectDTO.convertToProject(), id);
-//    }
-//
-//    public void deleteProject(String id) {
-//        projectRepositoryCustom.delete(id);
-//    }
 
     @Autowired
     ProjectRepository projectRepository;
@@ -68,7 +42,8 @@ public class ProjectService {
     }
 
     public void changeProjectName(ProjectDTO projectDTO, String id) {
-        Project project = mongoTemplate.findOne(Query.query(Criteria.where("_id").is(id)), Project.class);
+        Optional<Project> projectOptional = projectRepository.findById(id);
+        Project project = projectOptional.get();
         project.setProjectName(projectDTO.getProjectName());
         projectRepository.save(project);
     }
