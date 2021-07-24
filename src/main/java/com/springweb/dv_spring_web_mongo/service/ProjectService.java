@@ -1,13 +1,10 @@
 package com.springweb.dv_spring_web_mongo.service;
 
 import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
+import com.springweb.dv_spring_web_mongo.exception_handling.ProjectNotFoundException;
 import com.springweb.dv_spring_web_mongo.model.Project;
 import com.springweb.dv_spring_web_mongo.repository.ProjectRepository;
-import com.springweb.dv_spring_web_mongo.repository.ProjectRepositoryCustom;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -26,12 +23,14 @@ public class ProjectService {
         for (Project project : list) {
             listWithDto.add(project.convertToDTO());
         }
-        return listWithDto;
+        if (listWithDto.isEmpty()) throw new ProjectNotFoundException("Database of projects is empty");
+        else return listWithDto;
     }
 
     public ProjectDTO getProjectById(String id) {
-        Optional<Project> project = projectRepository.findById(id);
-        return project.get().convertToDTO();
+        Optional<Project> optional = projectRepository.findById(id);
+        if(optional.isEmpty()) throw new ProjectNotFoundException("Project with id '" + id + "' not found");
+        else return optional.get().convertToDTO();
     }
 
     public void addNewProject(ProjectDTO projectDTO) {
@@ -39,12 +38,18 @@ public class ProjectService {
     }
 
     public void changeProjectName(ProjectDTO projectDTO, String id) {
-        Project project = projectRepository.findById(id).get();
-        project.setProjectName(projectDTO.getProjectName());
-        projectRepository.save(project);
+        Optional<Project> optional = projectRepository.findById(id);
+        if (optional.isEmpty()) throw new ProjectNotFoundException("Project with id '" + id + "' not found");
+        else {
+            Project project = optional.get();
+            project.setProjectName(projectDTO.getProjectName());
+            projectRepository.save(project);
+        }
     }
 
     public void deleteProject(String id) {
-        projectRepository.deleteById(id);
+        Optional<Project> optional = projectRepository.findById(id);
+        if(optional.isEmpty()) throw new ProjectNotFoundException("Project with id '" + id + "' not found");
+        else projectRepository.deleteById(id);
     }
 }
