@@ -14,9 +14,9 @@ public class ProjectController {
     @Autowired
     ProjectService projectService;
 
-    @GetMapping()
-    public List<ProjectDTO> getAllProjects() {
-        return projectService.getAllProjects();
+    @GetMapping
+    public List<ProjectDTO> getAllProjects(@RequestParam(required = false) String param) {
+        return projectService.getAllProjects(param);
     }
 
     @GetMapping("/{id}")

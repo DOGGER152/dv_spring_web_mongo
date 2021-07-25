@@ -3,13 +3,13 @@ package com.springweb.dv_spring_web_mongo.service;
 import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
 import com.springweb.dv_spring_web_mongo.model.Project;
 import com.springweb.dv_spring_web_mongo.repository.ProjectRepository;
-import com.springweb.dv_spring_web_mongo.repository.ProjectRepositoryCustom;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import javax.management.Query;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -20,13 +20,26 @@ public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
-    public List<ProjectDTO> getAllProjects() {
-        List<Project> list = projectRepository.findAll();
-        List<ProjectDTO> listWithDto = new LinkedList<>();
-        for (Project project : list) {
-            listWithDto.add(project.convertToDTO());
+    public List<ProjectDTO> getAllProjects(String param) {
+        if (param.isEmpty()) {
+            List<Project> list = projectRepository.findAll();
+            List<ProjectDTO> listWithDto = new LinkedList<>();
+            for (Project project : list) {
+                listWithDto.add(project.convertToDTO());
+            }
+            return listWithDto;}
+
+        else {
+            ExampleMatcher exampleMatcher = ExampleMatcher.matchingAll().withIgnoreCase();
+            Example<Project> example = Example.of(new Project(null, param), exampleMatcher);
+            List<Project> list = projectRepository.findAll(example);
+            List<ProjectDTO> listWithDto = new LinkedList<>();
+            for (Project project : list) {
+                listWithDto.add(project.convertToDTO());
+                return listWithDto;
+            }
         }
-        return listWithDto;
+        return null;
     }
 
     public ProjectDTO getProjectById(String id) {
