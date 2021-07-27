@@ -1,7 +1,7 @@
 package com.springweb.dv_spring_web_mongo.service;
 
 import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
-import com.springweb.dv_spring_web_mongo.exception_handling.ProjectNotFoundException;
+import com.springweb.dv_spring_web_mongo.exception.handling.ProjectNotFoundException;
 import com.springweb.dv_spring_web_mongo.model.Project;
 import com.springweb.dv_spring_web_mongo.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;

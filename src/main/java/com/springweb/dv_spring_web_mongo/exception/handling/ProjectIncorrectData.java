@@ -1,4 +1,4 @@
-package com.springweb.dv_spring_web_mongo.exception_handling;
+package com.springweb.dv_spring_web_mongo.exception.handling;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
