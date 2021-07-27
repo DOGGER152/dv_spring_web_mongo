@@ -27,12 +27,8 @@ public class ProjectService {
     }
 
     public ProjectDTO getProjectById(String id) {
-        Optional<Project> optional = projectRepository.findById(id);
-        if (optional.isEmpty()) {
-            throw new ProjectNotFoundException("Project with id '" + id + "' not found");
-        } else {
-            return optional.get().convertToDTO();
-        }
+        checkProjectNotNull(id);
+        return projectRepository.findById(id).get().convertToDTO();
     }
 
     public void addNewProject(ProjectDTO projectDTO) {
@@ -40,20 +36,21 @@ public class ProjectService {
     }
 
     public void changeProjectName(ProjectDTO projectDTO, String id) {
-        Optional<Project> optional = projectRepository.findById(id);
-        if (optional.isEmpty()) {
-            throw new ProjectNotFoundException("Project with id '" + id + "' not found");
-        } else {
-            Project project = optional.get();
-            project.setProjectName(projectDTO.getProjectName());
-            projectRepository.save(project);
-        }
+        checkProjectNotNull(id);
+        Project project = projectRepository.findById(id).get();
+        project.setProjectName(projectDTO.getProjectName());
+        projectRepository.save(project);
     }
 
     public void deleteProject(String id) {
+        checkProjectNotNull(id);
+        projectRepository.deleteById(id);
+    }
+
+    public void checkProjectNotNull(String id) {
         Optional<Project> optional = projectRepository.findById(id);
         if (optional.isEmpty()) {
             throw new ProjectNotFoundException("Project with id '" + id + "' not found");
-        } else projectRepository.deleteById(id);
+        }
     }
 }
