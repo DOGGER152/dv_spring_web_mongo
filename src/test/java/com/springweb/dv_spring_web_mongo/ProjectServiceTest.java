@@ -10,8 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +30,7 @@ public class ProjectServiceTest {
         projectRepository.deleteAll();
         projectRepository.save(testProject);
         List<ProjectDTO> list = projectService.getAllProjects();
-        Assertions.assertFalse(list.isEmpty());
+        Assertions.assertTrue(list.size() == 1);
     }
 
     @Test
@@ -48,17 +46,19 @@ public class ProjectServiceTest {
         projectRepository.deleteAll();
         projectService.addNewProject(testProject.convertToDTO());
         Project actual = projectRepository.findById(testProject.getId()).get();
-        Assertions.assertEquals(testProject, actual);
+        Assertions.assertEquals(testProject.getId(), actual.getId());
+        Assertions.assertEquals(testProject.getProjectName(), actual.getProjectName());
     }
 
     @Test
     public void changeProjectNameTest() {
         projectRepository.deleteAll();
         projectRepository.save(testProject);
-        Project entityWithUpdatedString = new Project("", "Updated Project");
+        String expectedResult = "Updated Project";
+        Project entityWithUpdatedString = new Project("", expectedResult);
         projectService.changeProjectName(entityWithUpdatedString.convertToDTO(), testProject.getId());
         Project actual = projectRepository.findById(testProject.getId()).get();
-        Assertions.assertNotEquals(testProject.getProjectName(), actual.getProjectName());
+        Assertions.assertEquals(expectedResult, actual.getProjectName());
     }
 
     @Test
