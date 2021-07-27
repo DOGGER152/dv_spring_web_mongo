@@ -23,11 +23,7 @@ public class ProjectService {
         for (Project project : list) {
             listWithDto.add(project.convertToDTO());
         }
-        if (listWithDto.isEmpty()) {
-            throw new ProjectNotFoundException("Database of projects is empty");
-        } else {
-            return listWithDto;
-        }
+        return listWithDto;
     }
 
     public ProjectDTO getProjectById(String id) {
