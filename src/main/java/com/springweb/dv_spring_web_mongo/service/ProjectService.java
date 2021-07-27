@@ -23,14 +23,20 @@ public class ProjectService {
         for (Project project : list) {
             listWithDto.add(project.convertToDTO());
         }
-        if (listWithDto.isEmpty()) throw new ProjectNotFoundException("Database of projects is empty");
-        else return listWithDto;
+        if (listWithDto.isEmpty()) {
+            throw new ProjectNotFoundException("Database of projects is empty");
+        } else {
+            return listWithDto;
+        }
     }
 
     public ProjectDTO getProjectById(String id) {
         Optional<Project> optional = projectRepository.findById(id);
-        if(optional.isEmpty()) throw new ProjectNotFoundException("Project with id '" + id + "' not found");
-        else return optional.get().convertToDTO();
+        if (optional.isEmpty()) {
+            throw new ProjectNotFoundException("Project with id '" + id + "' not found");
+        } else {
+            return optional.get().convertToDTO();
+        }
     }
 
     public void addNewProject(ProjectDTO projectDTO) {
@@ -39,8 +45,9 @@ public class ProjectService {
 
     public void changeProjectName(ProjectDTO projectDTO, String id) {
         Optional<Project> optional = projectRepository.findById(id);
-        if (optional.isEmpty()) throw new ProjectNotFoundException("Project with id '" + id + "' not found");
-        else {
+        if (optional.isEmpty()) {
+            throw new ProjectNotFoundException("Project with id '" + id + "' not found");
+        } else {
             Project project = optional.get();
             project.setProjectName(projectDTO.getProjectName());
             projectRepository.save(project);
@@ -49,7 +56,8 @@ public class ProjectService {
 
     public void deleteProject(String id) {
         Optional<Project> optional = projectRepository.findById(id);
-        if(optional.isEmpty()) throw new ProjectNotFoundException("Project with id '" + id + "' not found");
-        else projectRepository.deleteById(id);
+        if (optional.isEmpty()) {
+            throw new ProjectNotFoundException("Project with id '" + id + "' not found");
+        } else projectRepository.deleteById(id);
     }
 }
