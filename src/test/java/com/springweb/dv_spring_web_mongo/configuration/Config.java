@@ -1,4 +1,4 @@
-package configuration;
+package com.springweb.dv_spring_web_mongo.configuration;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
@@ -6,6 +6,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -13,7 +14,8 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @PropertySource("classpath:application.properties")
 @Configuration
-@EnableMongoRepositories(basePackages = "com.springweb.dv_spring_web_mongo.repository")
+@EnableMongoRepositories(basePackages = "com.springweb.dv_spring_web_mongo")
+@ComponentScan(basePackages = "com.springweb.dv_spring_web_mongo")
 public class Config {
 
     @Value("${mongo.connectionString}")
