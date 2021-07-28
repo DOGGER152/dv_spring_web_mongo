@@ -15,8 +15,8 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import javax.annotation.processing.Generated;
 
 @Data
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
-@AllArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(collection = "LearningMongo")
 public class Project {
 
