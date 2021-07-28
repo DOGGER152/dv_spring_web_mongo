@@ -27,7 +27,7 @@ public class ProjectService {
     }
 
     public ProjectDTO getProjectById(String id) {
-        checkProjectNotNull(id);
+        getById(id);
         return projectRepository.findById(id).get().convertToDTO();
     }
 
@@ -36,21 +36,21 @@ public class ProjectService {
     }
 
     public void changeProjectName(ProjectDTO projectDTO, String id) {
-        checkProjectNotNull(id);
-        Project project = projectRepository.findById(id).get();
+        Project project = getById(id);
         project.setProjectName(projectDTO.getProjectName());
         projectRepository.save(project);
     }
 
     public void deleteProject(String id) {
-        checkProjectNotNull(id);
+        getById(id);
         projectRepository.deleteById(id);
     }
 
-    public void checkProjectNotNull(String id) {
+    public Project getById(String id) {
         Optional<Project> optional = projectRepository.findById(id);
         if (optional.isEmpty()) {
             throw new ProjectNotFoundException("Project with id '" + id + "' not found");
         }
+        return optional.get();
     }
 }
