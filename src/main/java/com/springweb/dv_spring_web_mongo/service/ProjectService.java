@@ -1,7 +1,7 @@
 package com.springweb.dv_spring_web_mongo.service;
 
 import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
-import com.springweb.dv_spring_web_mongo.exception.handling.ProjectNotFoundException;
+import com.springweb.dv_spring_web_mongo.exception.ProjectNotFoundException;
 import com.springweb.dv_spring_web_mongo.model.Project;
 import com.springweb.dv_spring_web_mongo.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +27,7 @@ public class ProjectService {
     }
 
     public ProjectDTO getProjectById(String id) {
-        getById(id);
-        return projectRepository.findById(id).get().convertToDTO();
+        return getById(id).convertToDTO();
     }
 
     public void addNewProject(ProjectDTO projectDTO) {
