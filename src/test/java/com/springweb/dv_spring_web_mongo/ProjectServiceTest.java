@@ -18,55 +18,80 @@ import java.util.Optional;
 public class ProjectServiceTest {
 
     @Autowired
-    ProjectRepository projectRepository;
+    private ProjectRepository projectRepository;
 
     @Autowired
-    ProjectService projectService;
+    private ProjectService projectService;
 
-    Project testProject = new Project("12345", "Test project One");
+    private String testName = "Test project";
+
+    private String testId = "12345";
+
+    private Project testProject = new Project(testId, testName);
 
     @Test
     public void getAllProjectsTest() {
+        //given
         projectRepository.deleteAll();
         projectRepository.save(testProject);
+        //when
         List<ProjectDTO> list = projectService.getAllProjects();
         Assertions.assertTrue(list.size() == 1);
+        //then
+        ProjectDTO project = list.get(0);
+        Assertions.assertFalse(project == null);
+        Assertions.assertEquals(testId, project.getId());
+        Assertions.assertEquals(testName, project.getProjectName());
     }
 
     @Test
     public void getProjectByIdTest() {
+        //given
         projectRepository.deleteAll();
         projectRepository.save(testProject);
-        Project actual = projectService.getProjectById(testProject.getId()).convertToProject();
-        Assertions.assertEquals(testProject, actual);
+        //when
+        ProjectDTO actual = projectService.getProjectById(testProject.getId());
+        //then
+        Assertions.assertEquals(testProject.getId(), actual.getId());
+        Assertions.assertEquals(testProject.getProjectName(), actual.getProjectName());
     }
 
     @Test
     public void addNewProjectTest() {
+        //given
         projectRepository.deleteAll();
         projectService.addNewProject(testProject.convertToDTO());
+        //when
         Project actual = projectRepository.findById(testProject.getId()).get();
+        //then
         Assertions.assertEquals(testProject.getId(), actual.getId());
         Assertions.assertEquals(testProject.getProjectName(), actual.getProjectName());
     }
 
     @Test
     public void changeProjectNameTest() {
+        //given
         projectRepository.deleteAll();
         projectRepository.save(testProject);
+        //when
         String expectedResult = "Updated Project";
-        Project entityWithUpdatedString = new Project("", expectedResult);
-        projectService.changeProjectName(entityWithUpdatedString.convertToDTO(), testProject.getId());
-        Project actual = projectRepository.findById(testProject.getId()).get();
+        ProjectDTO entityWithUpdatedString = new ProjectDTO("", expectedResult);
+        projectService.changeProjectName(entityWithUpdatedString, testId);
+        Project actual = projectRepository.findById(testId).get();
+        //then
         Assertions.assertEquals(expectedResult, actual.getProjectName());
+        Assertions.assertEquals(testId, actual.getId());
     }
 
     @Test
     public void deleteProjectTest() {
-        Project project = new Project("123", "test project");
-        projectRepository.save(project);
-        projectService.deleteProject(project.getId());
-        Optional optional = projectRepository.findById(project.getId());
+        //given
+        projectRepository.deleteAll();
+        projectRepository.save(testProject);
+        //when
+        projectService.deleteProject(testProject.getId());
+        Optional optional = projectRepository.findById(testProject.getId());
+        //then
         Assertions.assertTrue(optional.isEmpty());
     }
 }
