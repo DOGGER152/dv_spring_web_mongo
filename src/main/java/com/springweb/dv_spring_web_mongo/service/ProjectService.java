@@ -17,12 +17,12 @@ public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
-    public List<ProjectDTO> getAllProjects(String param) {
+    public List<ProjectDTO> getAllProjects(String filterProjectName) {
         List<Project> list;
-        if (param == null) {
+        if (filterProjectName == null) {
             list = projectRepository.findAll();
         } else {
-            list = projectRepository.findAllByProjectNameMatchesRegexOrderById("(?i)" + param);
+            list = projectRepository.findAllByProjectNameMatchesRegexOrderById("(?i)" + filterProjectName);
         }
         return list.stream().map(Project::convertToDTO).collect(Collectors.toList());
     }
