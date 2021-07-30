@@ -35,7 +35,7 @@ public class ProjectServiceTest {
         projectRepository.deleteAll();
         projectRepository.save(testProject);
         //when
-        List<ProjectDTO> list = projectService.getAllProjects();
+        List<ProjectDTO> list = projectService.getAllProjects(null);
         Assertions.assertTrue(list.size() == 1);
         //then
         ProjectDTO project = list.get(0);
