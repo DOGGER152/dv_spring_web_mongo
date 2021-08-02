@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ProjectService {
@@ -18,14 +17,13 @@ public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
-    public List<ProjectDTO> getAllProjects(String filterProjectName) {
-        List<Project> list;
-        if (filterProjectName == null) {
-            list = projectRepository.findAll();
-        } else {
-            list = projectRepository.findAllByProjectNameMatchesRegexOrderById("(?i)" + filterProjectName);
+    public List<ProjectDTO> getAllProjects() {
+        List<Project> list = projectRepository.findAll();
+        List<ProjectDTO> listWithDto = new LinkedList<>();
+        for (Project project : list) {
+            listWithDto.add(project.convertToDTO());
         }
-        return list.stream().map(Project::convertToDTO).collect(Collectors.toList());
+        return listWithDto;
     }
 
     public ProjectDTO getProjectById(String id) {
