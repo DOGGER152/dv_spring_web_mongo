@@ -1,6 +1,5 @@
 package com.springweb.dv_spring_web_mongo.repository;
 
-import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
 import com.springweb.dv_spring_web_mongo.model.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -9,7 +8,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.awt.print.Pageable;
 import java.util.List;
 
 @Component
@@ -20,6 +19,11 @@ public class ProjectRepositoryCustom {
     public List<Project> findAll() {
         List<Project> list = mongoTemplate.findAll(Project.class);
         return list;
+    }
+
+    public List<Project> findALl(int pageSize, int pageNumber) {
+
+        return null;
     }
 
     public Project findById(String id) {

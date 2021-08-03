@@ -15,8 +15,10 @@ public class ProjectController {
     ProjectService projectService;
 
     @GetMapping
-    public List<ProjectDTO> getAllProjects(@RequestParam(required = false) String filterProjectName) {
-        return projectService.getAllProjects(filterProjectName);
+    public List<ProjectDTO> getAllProjects(@RequestParam(required = false) String filterProjectName,
+                                           @RequestParam(required = false) int pageSize,
+                                           @RequestParam(required = false) int pageNumber) {
+        return projectService.getAllProjects(filterProjectName, pageSize, pageNumber);
     }
 
     @GetMapping("/{id}")

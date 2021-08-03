@@ -39,7 +39,7 @@ public class ProjectServiceTest {
         String secondProjectId = "54321";
         projectRepository.save(new Project(secondProjectId, secondProjectName));
         //when
-        List<ProjectDTO> list1 = projectService.getAllProjects(null);
+        List<ProjectDTO> list1 = projectService.getAllProjects(null, 0, 0);
         ProjectDTO project = list1.get(0);
         //then
         Assertions.assertTrue(list1.size() == 2);
@@ -47,7 +47,7 @@ public class ProjectServiceTest {
         Assertions.assertEquals(testId, project.getId());
         Assertions.assertEquals(testName, project.getProjectName());
         //when
-        List<ProjectDTO> list2 = projectService.getAllProjects("another");
+        List<ProjectDTO> list2 = projectService.getAllProjects("another", 0, 0);
         ProjectDTO project2 = list2.get(0);
         //then
         Assertions.assertTrue(list2.size() == 1);
