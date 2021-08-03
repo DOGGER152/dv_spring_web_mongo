@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -34,14 +35,25 @@ public class ProjectServiceTest {
         //given
         projectRepository.deleteAll();
         projectRepository.save(testProject);
+        String secondProjectName = "Another test project";
+        String secondProjectId = "54321";
+        projectRepository.save(new Project(secondProjectId, secondProjectName));
         //when
-        List<ProjectDTO> list = projectService.getAllProjects(null);
-        Assertions.assertTrue(list.size() == 1);
+        List<ProjectDTO> list1 = projectService.getAllProjects(null);
+        ProjectDTO project = list1.get(0);
         //then
-        ProjectDTO project = list.get(0);
+        Assertions.assertTrue(list1.size() == 2);
         Assertions.assertFalse(project == null);
         Assertions.assertEquals(testId, project.getId());
         Assertions.assertEquals(testName, project.getProjectName());
+        //when
+        List<ProjectDTO> list2 = projectService.getAllProjects("another");
+        ProjectDTO project2 = list2.get(0);
+        //then
+        Assertions.assertTrue(list2.size() == 1);
+        Assertions.assertFalse(project2 == null);
+        Assertions.assertEquals(secondProjectId, project2.getId());
+        Assertions.assertEquals(secondProjectName, project2.getProjectName());
     }
 
     @Test
