@@ -46,7 +46,7 @@ public class ProjectServiceTest {
         Assertions.assertEquals(testId, project.getId());
         Assertions.assertEquals(testName, project.getProjectName());
         //when
-        List<ProjectDTO> list2 = projectService.getAllProjects("my");
+        List<ProjectDTO> list2 = projectService.getAllProjects("another");
         ProjectDTO project2 = list2.get(0);
         //then
         Assertions.assertTrue(list2.size()==1);
