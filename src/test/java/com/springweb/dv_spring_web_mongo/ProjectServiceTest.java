@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +50,7 @@ public class ProjectServiceTest {
         List<ProjectDTO> list2 = projectService.getAllProjects("another");
         ProjectDTO project2 = list2.get(0);
         //then
-        Assertions.assertTrue(list2.size()==1);
+        Assertions.assertTrue(list2.size() == 1);
         Assertions.assertFalse(project2 == null);
         Assertions.assertEquals(secondProjectId, project2.getId());
         Assertions.assertEquals(secondProjectName, project2.getProjectName());
