@@ -21,11 +21,6 @@ public class ProjectRepositoryCustom {
         return list;
     }
 
-    public List<Project> findALl(int pageSize, int pageNumber) {
-
-        return null;
-    }
-
     public Project findById(String id) {
         Query search = new Query(Criteria.where("_id").is(id));
         Project project = mongoTemplate.findOne(search, Project.class);

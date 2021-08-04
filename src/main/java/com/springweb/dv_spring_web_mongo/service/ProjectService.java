@@ -1,6 +1,7 @@
 package com.springweb.dv_spring_web_mongo.service;
 
 import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
+import com.springweb.dv_spring_web_mongo.exception.BadRequestException;
 import com.springweb.dv_spring_web_mongo.exception.ProjectNotFoundException;
 import com.springweb.dv_spring_web_mongo.model.Project;
 import com.springweb.dv_spring_web_mongo.repository.ProjectRepository;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,17 +23,13 @@ public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
-    public List<ProjectDTO> getAllProjects(String filterProjectName, int pageSize, int pageNumber) {
+    public List<ProjectDTO> getAllProjects(String filterProjectName, Integer pageSize, Integer pageNumber) {
         List<Project> list = null;
-        boolean paging = false;
-        boolean filteringByProjectName = true;
+        boolean paging = pageNumber != null;
+        boolean filteringByProjectName = !(filterProjectName == null);
 
-        //condition switching
-        if (filterProjectName == null) {
-            filteringByProjectName = false;
-        }
-        if (pageNumber > 0 && pageSize > 0) {
-            paging = true;
+        if ((pageNumber == null && pageSize != null) || (pageNumber != null && pageSize == null)) {
+            throw new BadRequestException("All parameters of page must be specified, or none");
         }
 
         if (!filteringByProjectName && !paging) {
@@ -38,11 +37,10 @@ public class ProjectService {
         } else if (filteringByProjectName && !paging) {
             list = projectRepository.findAllByProjectNameMatchesRegex("(?i)" + filterProjectName);
         } else if (filteringByProjectName && paging) {
-            Pageable pageable = PageRequest.of(pageNumber, pageSize);
-            Page<Project> page = projectRepository.findAllByProjectNameMatchesRegex(filterProjectName, pageable);
-            list = page.toList();
+            Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+            list = projectRepository.findAllByProjectNameMatchesRegex(filterProjectName, pageable);
         } else if (!filteringByProjectName && paging) {
-            Pageable pageable = PageRequest.of(pageNumber, pageSize);
+            Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
             Page<Project> page = projectRepository.findAll(pageable);
             list = page.toList();
         }

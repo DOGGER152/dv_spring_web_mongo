@@ -11,5 +11,5 @@ public interface ProjectRepository extends MongoRepository<Project, String> {
 
     List<Project> findAllByProjectNameMatchesRegex(String regex);
 
-    Page<Project> findAllByProjectNameMatchesRegex(String regex, Pageable pageable);
+    List<Project> findAllByProjectNameMatchesRegex(String regex, Pageable pageable);
 }
