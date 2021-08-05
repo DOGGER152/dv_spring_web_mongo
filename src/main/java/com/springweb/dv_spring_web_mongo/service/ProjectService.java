@@ -32,6 +32,7 @@ public class ProjectService {
             throw new BadRequestException("All parameters of page must be specified, or none");
         }
 
+
         if (!filteringByProjectName && !paging) {
             list = projectRepository.findAll();
         } else if (filteringByProjectName && !paging) {
