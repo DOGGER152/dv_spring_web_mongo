@@ -3,8 +3,10 @@ package com.springweb.dv_spring_web_mongo.controller;
 import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
 import com.springweb.dv_spring_web_mongo.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,12 +27,12 @@ public class ProjectController {
     }
 
     @PostMapping()
-    public void addNewProject(@RequestBody ProjectDTO projectDTO) {
+    public void addNewProject(@Valid @RequestBody ProjectDTO projectDTO) {
         projectService.addNewProject(projectDTO);
     }
 
     @PutMapping("/{id}")
-    public void changeProjectName(@RequestBody ProjectDTO projectDTO, @PathVariable String id) {
+    public void changeProjectName(@Valid @RequestBody ProjectDTO projectDTO, @PathVariable String id) {
         projectService.changeProjectName(projectDTO, id);
     }
 

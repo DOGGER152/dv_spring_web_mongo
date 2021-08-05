@@ -2,7 +2,8 @@ package com.springweb.dv_spring_web_mongo.dto;
 
 import com.springweb.dv_spring_web_mongo.model.Project;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.validation.constraints.NotNull;
 
 public class ProjectDTO {
 
@@ -14,9 +15,12 @@ public class ProjectDTO {
         this.projectName = projectName;
     }
 
+
+    @NotNull
     @Id
     private String id;
 
+    @NotNull
     private String projectName;
 
     public void setId(String id) {
