@@ -13,4 +13,6 @@ public interface ProjectRepository extends MongoRepository<Project, String> {
 
     List<Project> findAllByProjectNameMatchesRegexOrderById(String regex, Pageable pageable);
 
+    Project findProjectByProjectNameIs(String name);
+
 }

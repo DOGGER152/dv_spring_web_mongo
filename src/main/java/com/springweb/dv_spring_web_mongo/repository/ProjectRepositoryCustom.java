@@ -22,6 +22,12 @@ public class ProjectRepositoryCustom {
         return list;
     }
 
+    public Project findByName(String name) {
+        Query search = new Query(Criteria.where("projectName").is(name));
+        Project project = mongoTemplate.findOne(search, Project.class);
+        return project;
+    }
+
     public Project findById(String id) {
         Query search = new Query(Criteria.where("_id").is(id));
         Project project = mongoTemplate.findOne(search, Project.class);

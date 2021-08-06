@@ -44,7 +44,6 @@ public class ProjectServiceTest {
         //then
         Assertions.assertTrue(list1.size() == 2);
         Assertions.assertFalse(project == null);
-        Assertions.assertEquals(testId, project.getId());
         Assertions.assertEquals(testName, project.getProjectName());
         //when
         List<ProjectDTO> list2 = projectService.getAllProjects("another");
@@ -52,7 +51,6 @@ public class ProjectServiceTest {
         //then
         Assertions.assertTrue(list2.size() == 1);
         Assertions.assertFalse(project2 == null);
-        Assertions.assertEquals(secondProjectId, project2.getId());
         Assertions.assertEquals(secondProjectName, project2.getProjectName());
     }
 
@@ -64,7 +62,6 @@ public class ProjectServiceTest {
         //when
         ProjectDTO actual = projectService.getProjectById(testProject.getId());
         //then
-        Assertions.assertEquals(testProject.getId(), actual.getId());
         Assertions.assertEquals(testProject.getProjectName(), actual.getProjectName());
     }
 
@@ -74,9 +71,8 @@ public class ProjectServiceTest {
         projectRepository.deleteAll();
         projectService.addNewProject(testProject.convertToDTO());
         //when
-        Project actual = projectRepository.findById(testProject.getId()).get();
+        Project actual = projectRepository.findProjectByProjectNameIs(testName);
         //then
-        Assertions.assertEquals(testProject.getId(), actual.getId());
         Assertions.assertEquals(testProject.getProjectName(), actual.getProjectName());
     }
 
@@ -87,7 +83,7 @@ public class ProjectServiceTest {
         projectRepository.save(testProject);
         //when
         String expectedResult = "Updated Project";
-        ProjectDTO entityWithUpdatedString = new ProjectDTO("", expectedResult);
+        ProjectDTO entityWithUpdatedString = new ProjectDTO(expectedResult);
         projectService.changeProjectName(entityWithUpdatedString, testId);
         Project actual = projectRepository.findById(testId).get();
         //then

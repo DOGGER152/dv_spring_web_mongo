@@ -26,6 +26,6 @@ public class Project {
     private String projectName;
 
     public ProjectDTO convertToDTO() {
-        return new ProjectDTO(this.id, this.projectName);
+        return new ProjectDTO(this.projectName);
     }
 }
