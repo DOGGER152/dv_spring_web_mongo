@@ -2,6 +2,7 @@ package com.springweb.dv_spring_web_mongo;
 
 import com.springweb.dv_spring_web_mongo.configuration.Config;
 import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
+import com.springweb.dv_spring_web_mongo.exception.ProjectNotFoundException;
 import com.springweb.dv_spring_web_mongo.model.Project;
 import com.springweb.dv_spring_web_mongo.repository.ProjectRepository;
 import com.springweb.dv_spring_web_mongo.service.ProjectService;
@@ -57,6 +58,11 @@ public class ProjectServiceTest {
     }
 
     @Test
+    public void getAllProjectsPaginationAndFilteringTest() {
+
+    }
+
+    @Test
     public void getProjectByIdTest() {
         //given
         projectRepository.deleteAll();
@@ -66,6 +72,9 @@ public class ProjectServiceTest {
         //then
         Assertions.assertEquals(testProject.getId(), actual.getId());
         Assertions.assertEquals(testProject.getProjectName(), actual.getProjectName());
+        Assertions.assertThrows(ProjectNotFoundException.class, () -> {
+            projectService.getProjectById("000");
+        });
     }
 
     @Test
@@ -93,6 +102,9 @@ public class ProjectServiceTest {
         //then
         Assertions.assertEquals(expectedResult, actual.getProjectName());
         Assertions.assertEquals(testId, actual.getId());
+        Assertions.assertThrows(ProjectNotFoundException.class, () -> {
+            projectService.changeProjectName(null, "000");
+        });
     }
 
     @Test
@@ -105,5 +117,8 @@ public class ProjectServiceTest {
         Optional optional = projectRepository.findById(testProject.getId());
         //then
         Assertions.assertTrue(optional.isEmpty());
+        Assertions.assertThrows(ProjectNotFoundException.class, () -> {
+            projectService.deleteProject("000");
+        });
     }
 }
