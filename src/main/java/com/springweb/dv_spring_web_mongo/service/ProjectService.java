@@ -40,7 +40,6 @@ public class ProjectService {
             }
         }
 
-
         if (!filteringByProjectName && !paging) {
             list = projectRepository.findAll();
         } else if (filteringByProjectName && !paging) {
