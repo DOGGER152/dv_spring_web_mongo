@@ -1,18 +1,13 @@
 package com.springweb.dv_spring_web_mongo.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
-import lombok.AccessLevel;
+import com.springweb.dv_spring_web_mongo.dto.ProjectDTOGet;
+import com.springweb.dv_spring_web_mongo.dto.ProjectDTOSend;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
-
-import javax.annotation.processing.Generated;
 
 @Data
 @NoArgsConstructor
@@ -25,7 +20,11 @@ public class Project {
 
     private String projectName;
 
-    public ProjectDTO convertToDTO() {
-        return new ProjectDTO(this.id, this.projectName);
+    public ProjectDTOGet convertToDTOGet() {
+        return new ProjectDTOGet(this.id, this.projectName);
+    }
+
+    public ProjectDTOSend convertToDTOSend() {
+        return new ProjectDTOSend(this.id, this.projectName);
     }
 }

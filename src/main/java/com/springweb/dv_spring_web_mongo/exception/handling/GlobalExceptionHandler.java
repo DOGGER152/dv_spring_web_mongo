@@ -4,6 +4,7 @@ import com.springweb.dv_spring_web_mongo.exception.BadRequestException;
 import com.springweb.dv_spring_web_mongo.exception.ProjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -21,6 +22,13 @@ public class GlobalExceptionHandler {
     ResponseEntity<ProjectIncorrectData> handleException(BadRequestException ex) {
         ProjectIncorrectData projectIncorrectData = new ProjectIncorrectData();
         projectIncorrectData.setErrorMessage(ex.getMessage());
+        return new ResponseEntity<>(projectIncorrectData, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    ResponseEntity<ProjectIncorrectData> handleException(MethodArgumentNotValidException ex) {
+        ProjectIncorrectData projectIncorrectData = new ProjectIncorrectData();
+        projectIncorrectData.setErrorMessage(ex.getClass().);
         return new ResponseEntity<>(projectIncorrectData, HttpStatus.BAD_REQUEST);
     }
 

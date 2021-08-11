@@ -1,7 +1,8 @@
 package com.springweb.dv_spring_web_mongo;
 
 import com.springweb.dv_spring_web_mongo.configuration.Config;
-import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
+import com.springweb.dv_spring_web_mongo.dto.ProjectDTOGet;
+import com.springweb.dv_spring_web_mongo.dto.ProjectDTOSend;
 import com.springweb.dv_spring_web_mongo.exception.BadRequestException;
 import com.springweb.dv_spring_web_mongo.exception.ProjectNotFoundException;
 import com.springweb.dv_spring_web_mongo.model.Project;
@@ -41,16 +42,16 @@ public class ProjectServiceTest {
         String secondProjectId = "54321";
         projectRepository.save(new Project(secondProjectId, secondProjectName));
         //when
-        List<ProjectDTO> list1 = projectService.getAllProjects(null, null, null);
-        ProjectDTO project = list1.get(0);
+        List<ProjectDTOGet> list1 = projectService.getAllProjects(null, null, null);
+        ProjectDTOGet project = list1.get(0);
         //then
         Assertions.assertTrue(list1.size() == 2);
         Assertions.assertFalse(project == null);
         Assertions.assertEquals(testId, project.getId());
         Assertions.assertEquals(testName, project.getProjectName());
         //when
-        List<ProjectDTO> list2 = projectService.getAllProjects("another", null, null);
-        ProjectDTO project2 = list2.get(0);
+        List<ProjectDTOGet> list2 = projectService.getAllProjects("another", null, null);
+        ProjectDTOGet project2 = list2.get(0);
         //then
         Assertions.assertTrue(list2.size() == 1);
         Assertions.assertFalse(project2 == null);
@@ -116,7 +117,7 @@ public class ProjectServiceTest {
         projectRepository.deleteAll();
         projectRepository.save(testProject);
         //when
-        ProjectDTO actual = projectService.getProjectById(testProject.getId());
+        ProjectDTOGet actual = projectService.getProjectById(testProject.getId());
         //then
         Assertions.assertEquals(testProject.getId(), actual.getId());
         Assertions.assertEquals(testProject.getProjectName(), actual.getProjectName());
@@ -129,7 +130,7 @@ public class ProjectServiceTest {
     public void addNewProjectTest() {
         //given
         projectRepository.deleteAll();
-        projectService.addNewProject(testProject.convertToDTO());
+        projectService.addNewProject(testProject.convertToDTOSend());
         //when
         Project actual = projectRepository.findById(testProject.getId()).get();
         //then
@@ -144,7 +145,7 @@ public class ProjectServiceTest {
         projectRepository.save(testProject);
         //when
         String expectedResult = "Updated Project";
-        ProjectDTO entityWithUpdatedString = new ProjectDTO("", expectedResult);
+        ProjectDTOSend entityWithUpdatedString = new ProjectDTOSend(null, expectedResult);
         projectService.changeProjectName(entityWithUpdatedString, testId);
         Project actual = projectRepository.findById(testId).get();
         //then

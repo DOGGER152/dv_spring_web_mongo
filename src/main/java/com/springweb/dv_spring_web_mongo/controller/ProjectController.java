@@ -1,10 +1,12 @@
 package com.springweb.dv_spring_web_mongo.controller;
 
-import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
+import com.springweb.dv_spring_web_mongo.dto.ProjectDTOGet;
+import com.springweb.dv_spring_web_mongo.dto.ProjectDTOSend;
 import com.springweb.dv_spring_web_mongo.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -15,25 +17,25 @@ public class ProjectController {
     ProjectService projectService;
 
     @GetMapping
-    public List<ProjectDTO> getAllProjects(@RequestParam(required = false) String filterProjectName,
-                                           @RequestParam(required = false) Integer pageSize,
-                                           @RequestParam(required = false) Integer pageNumber) {
+    public List<ProjectDTOGet> getAllProjects(@RequestParam(required = false) String filterProjectName,
+                                              @RequestParam(required = false) Integer pageSize,
+                                              @RequestParam(required = false) Integer pageNumber) {
         return projectService.getAllProjects(filterProjectName, pageSize, pageNumber);
     }
 
     @GetMapping("/{id}")
-    public ProjectDTO findProjectById(@PathVariable String id) {
+    public ProjectDTOGet findProjectById(@PathVariable String id) {
         return projectService.getProjectById(id);
     }
 
     @PostMapping()
-    public void addNewProject(@RequestBody ProjectDTO projectDTO) {
-        projectService.addNewProject(projectDTO);
+    public void addNewProject(@Valid @RequestBody ProjectDTOSend projectDTOsend) {
+        projectService.addNewProject(projectDTOsend);
     }
 
     @PutMapping("/{id}")
-    public void changeProjectName(@RequestBody ProjectDTO projectDTO, @PathVariable String id) {
-        projectService.changeProjectName(projectDTO, id);
+    public void changeProjectName(@Valid @RequestBody ProjectDTOSend projectDTOSend, @PathVariable String id) {
+        projectService.changeProjectName(projectDTOSend, id);
     }
 
     @DeleteMapping("/{id}")

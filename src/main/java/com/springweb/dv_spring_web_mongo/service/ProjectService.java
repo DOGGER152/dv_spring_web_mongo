@@ -1,6 +1,7 @@
 package com.springweb.dv_spring_web_mongo.service;
 
-import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
+import com.springweb.dv_spring_web_mongo.dto.ProjectDTOGet;
+import com.springweb.dv_spring_web_mongo.dto.ProjectDTOSend;
 import com.springweb.dv_spring_web_mongo.exception.BadRequestException;
 import com.springweb.dv_spring_web_mongo.exception.ProjectNotFoundException;
 import com.springweb.dv_spring_web_mongo.model.Project;
@@ -9,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +22,7 @@ public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
-    public List<ProjectDTO> getAllProjects(String filterProjectName, Integer pageSize, Integer pageNumber) {
+    public List<ProjectDTOGet> getAllProjects(String filterProjectName, Integer pageSize, Integer pageNumber) {
         List<Project> list = null;
         boolean paging = pageNumber != null;
         boolean filteringByProjectName = !(filterProjectName == null);
@@ -53,20 +52,20 @@ public class ProjectService {
             list = page.toList();
         }
 
-        return list.stream().map(Project::convertToDTO).collect(Collectors.toList());
+        return list.stream().map(Project::convertToDTOGet).collect(Collectors.toList());
     }
 
-    public ProjectDTO getProjectById(String id) {
-        return getById(id).convertToDTO();
+    public ProjectDTOGet getProjectById(String id) {
+        return getById(id).convertToDTOGet();
     }
 
-    public void addNewProject(ProjectDTO projectDTO) {
-        projectRepository.save(projectDTO.convertToProject());
+    public void addNewProject(ProjectDTOSend projectDTOSend) {
+        projectRepository.save(projectDTOSend.convertToProject());
     }
 
-    public void changeProjectName(ProjectDTO projectDTO, String id) {
+    public void changeProjectName(ProjectDTOSend projectDTOSend, String id) {
         Project project = getById(id);
-        project.setProjectName(projectDTO.getProjectName());
+        project.setProjectName(projectDTOSend.getProjectName());
         projectRepository.save(project);
     }
 
