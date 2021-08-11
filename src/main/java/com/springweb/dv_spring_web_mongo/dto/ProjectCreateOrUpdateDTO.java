@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProjectDTOSend {
+public class ProjectCreateOrUpdateDTO {
 
     @Id
     String id;

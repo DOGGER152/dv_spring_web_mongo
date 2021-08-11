@@ -1,8 +1,8 @@
 package com.springweb.dv_spring_web_mongo;
 
 import com.springweb.dv_spring_web_mongo.configuration.Config;
-import com.springweb.dv_spring_web_mongo.dto.ProjectDTOGet;
-import com.springweb.dv_spring_web_mongo.dto.ProjectDTOSend;
+import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
+import com.springweb.dv_spring_web_mongo.dto.ProjectCreateOrUpdateDTO;
 import com.springweb.dv_spring_web_mongo.exception.BadRequestException;
 import com.springweb.dv_spring_web_mongo.exception.ProjectNotFoundException;
 import com.springweb.dv_spring_web_mongo.model.Project;
@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,16 +42,16 @@ public class ProjectServiceTest {
         String secondProjectId = "54321";
         projectRepository.save(new Project(secondProjectId, secondProjectName));
         //when
-        List<ProjectDTOGet> list1 = projectService.getAllProjects(null, null, null);
-        ProjectDTOGet project = list1.get(0);
+        List<ProjectDTO> list1 = projectService.getAllProjects(null, null, null);
+        ProjectDTO project = list1.get(0);
         //then
         Assertions.assertTrue(list1.size() == 2);
         Assertions.assertFalse(project == null);
         Assertions.assertEquals(testId, project.getId());
         Assertions.assertEquals(testName, project.getProjectName());
         //when
-        List<ProjectDTOGet> list2 = projectService.getAllProjects("another", null, null);
-        ProjectDTOGet project2 = list2.get(0);
+        List<ProjectDTO> list2 = projectService.getAllProjects("another", null, null);
+        ProjectDTO project2 = list2.get(0);
         //then
         Assertions.assertTrue(list2.size() == 1);
         Assertions.assertFalse(project2 == null);
@@ -118,7 +117,7 @@ public class ProjectServiceTest {
         projectRepository.deleteAll();
         projectRepository.save(testProject);
         //when
-        ProjectDTOGet actual = projectService.getProjectById(testProject.getId());
+        ProjectDTO actual = projectService.getProjectById(testProject.getId());
         //then
         Assertions.assertEquals(testProject.getId(), actual.getId());
         Assertions.assertEquals(testProject.getProjectName(), actual.getProjectName());
@@ -146,7 +145,7 @@ public class ProjectServiceTest {
         projectRepository.save(testProject);
         //when
         String expectedResult = "Updated Project";
-        ProjectDTOSend entityWithUpdatedString = new ProjectDTOSend(null, expectedResult);
+        ProjectCreateOrUpdateDTO entityWithUpdatedString = new ProjectCreateOrUpdateDTO(null, expectedResult);
         projectService.changeProjectName(entityWithUpdatedString, testId);
         Project actual = projectRepository.findById(testId).get();
         //then

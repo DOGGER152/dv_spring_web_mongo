@@ -1,7 +1,7 @@
 package com.springweb.dv_spring_web_mongo.service;
 
-import com.springweb.dv_spring_web_mongo.dto.ProjectDTOGet;
-import com.springweb.dv_spring_web_mongo.dto.ProjectDTOSend;
+import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
+import com.springweb.dv_spring_web_mongo.dto.ProjectCreateOrUpdateDTO;
 import com.springweb.dv_spring_web_mongo.exception.BadRequestException;
 import com.springweb.dv_spring_web_mongo.exception.ProjectNotFoundException;
 import com.springweb.dv_spring_web_mongo.model.Project;
@@ -22,7 +22,7 @@ public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
-    public List<ProjectDTOGet> getAllProjects(String filterProjectName, Integer pageSize, Integer pageNumber) {
+    public List<ProjectDTO> getAllProjects(String filterProjectName, Integer pageSize, Integer pageNumber) {
         List<Project> list = null;
         boolean paging = pageNumber != null;
         boolean filteringByProjectName = !(filterProjectName == null);
@@ -52,20 +52,20 @@ public class ProjectService {
             list = page.toList();
         }
 
-        return list.stream().map(Project::convertToDTOGet).collect(Collectors.toList());
+        return list.stream().map(Project::convertToDTO).collect(Collectors.toList());
     }
 
-    public ProjectDTOGet getProjectById(String id) {
-        return getById(id).convertToDTOGet();
+    public ProjectDTO getProjectById(String id) {
+        return getById(id).convertToDTO();
     }
 
-    public void addNewProject(ProjectDTOSend projectDTOSend) {
-        projectRepository.save(projectDTOSend.convertToProject());
+    public void addNewProject(ProjectCreateOrUpdateDTO projectCreateOrUpdateDTO) {
+        projectRepository.save(projectCreateOrUpdateDTO.convertToProject());
     }
 
-    public void changeProjectName(ProjectDTOSend projectDTOSend, String id) {
+    public void changeProjectName(ProjectCreateOrUpdateDTO projectCreateOrUpdateDTO, String id) {
         Project project = getById(id);
-        project.setProjectName(projectDTOSend.getProjectName());
+        project.setProjectName(projectCreateOrUpdateDTO.getProjectName());
         projectRepository.save(project);
     }
 

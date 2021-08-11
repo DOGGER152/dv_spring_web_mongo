@@ -13,15 +13,11 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class ProjectDTOGet {
+public class ProjectDTO {
 
-    @Id
     private String id;
 
     @NotNull
     private String projectName;
 
-    public Project convertToProject() {
-        return new Project(this.id, this.projectName);
-    }
 }
