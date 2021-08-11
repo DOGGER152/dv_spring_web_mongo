@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     ResponseEntity<ProjectIncorrectData> handleException(MethodArgumentNotValidException ex) {
         ProjectIncorrectData projectIncorrectData = new ProjectIncorrectData();
-        projectIncorrectData.setErrorMessage(ex.getClass().);
+        projectIncorrectData.setErrorMessage("Incorrect value: " + ex.getFieldError().getField());
         return new ResponseEntity<>(projectIncorrectData, HttpStatus.BAD_REQUEST);
     }
 
