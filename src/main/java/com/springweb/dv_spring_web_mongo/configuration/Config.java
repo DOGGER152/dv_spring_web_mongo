@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
+import java.awt.print.Pageable;
 
 @PropertySource("classpath:application.properties")
 @Configuration
@@ -33,4 +36,5 @@ public class Config {
     public MongoTemplate mongoTemplate() {
         return new MongoTemplate(mongoClient(), this.dbName);
     }
+
 }
