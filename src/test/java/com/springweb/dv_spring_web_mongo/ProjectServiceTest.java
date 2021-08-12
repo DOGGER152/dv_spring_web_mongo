@@ -132,9 +132,8 @@ public class ProjectServiceTest {
         projectRepository.deleteAll();
         projectService.addNewProject(testProject.convertToDTOSend());
         //when
-        Project actual = projectRepository.findById(testProject.getId()).get();
+        Project actual = projectRepository.findProjectByProjectName(testProject.getProjectName());
         //then
-        Assertions.assertEquals(testProject.getId(), actual.getId());
         Assertions.assertEquals(testProject.getProjectName(), actual.getProjectName());
     }
 
@@ -145,7 +144,7 @@ public class ProjectServiceTest {
         projectRepository.save(testProject);
         //when
         String expectedResult = "Updated Project";
-        ProjectCreateOrUpdateDTO entityWithUpdatedString = new ProjectCreateOrUpdateDTO(null, expectedResult);
+        ProjectCreateOrUpdateDTO entityWithUpdatedString = new ProjectCreateOrUpdateDTO(expectedResult);
         projectService.changeProjectName(entityWithUpdatedString, testId);
         Project actual = projectRepository.findById(testId).get();
         //then

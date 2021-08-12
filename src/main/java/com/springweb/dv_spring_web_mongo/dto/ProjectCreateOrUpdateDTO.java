@@ -13,13 +13,10 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class ProjectCreateOrUpdateDTO {
 
-    @Id
-    String id;
-
     @NotNull
     String projectName;
 
     public Project convertToProject() {
-        return new Project(this.id, this.projectName);
+        return new Project(null, this.projectName);
     }
 }
