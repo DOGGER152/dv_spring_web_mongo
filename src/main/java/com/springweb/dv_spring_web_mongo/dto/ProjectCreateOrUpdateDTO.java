@@ -4,20 +4,19 @@ import com.springweb.dv_spring_web_mongo.model.Project;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-public class ProjectDTO {
-
-    private String id;
+public class ProjectCreateOrUpdateDTO {
 
     @NotNull
-    private String projectName;
+    String projectName;
 
+    public Project convertToProject() {
+        return new Project(null, this.projectName);
+    }
 }

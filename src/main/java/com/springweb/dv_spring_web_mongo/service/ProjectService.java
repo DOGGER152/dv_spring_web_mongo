@@ -1,6 +1,7 @@
 package com.springweb.dv_spring_web_mongo.service;
 
 import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
+import com.springweb.dv_spring_web_mongo.dto.ProjectCreateOrUpdateDTO;
 import com.springweb.dv_spring_web_mongo.exception.BadRequestException;
 import com.springweb.dv_spring_web_mongo.exception.ProjectNotFoundException;
 import com.springweb.dv_spring_web_mongo.model.Project;
@@ -9,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -60,13 +59,13 @@ public class ProjectService {
         return getById(id).convertToDTO();
     }
 
-    public void addNewProject(ProjectDTO projectDTO) {
-        projectRepository.save(projectDTO.convertToProject());
+    public void addNewProject(ProjectCreateOrUpdateDTO projectCreateOrUpdateDTO) {
+        projectRepository.save(projectCreateOrUpdateDTO.convertToProject());
     }
 
-    public void changeProjectName(ProjectDTO projectDTO, String id) {
+    public void changeProjectName(ProjectCreateOrUpdateDTO projectCreateOrUpdateDTO, String id) {
         Project project = getById(id);
-        project.setProjectName(projectDTO.getProjectName());
+        project.setProjectName(projectCreateOrUpdateDTO.getProjectName());
         projectRepository.save(project);
     }
 

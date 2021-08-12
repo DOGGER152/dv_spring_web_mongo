@@ -2,6 +2,7 @@ package com.springweb.dv_spring_web_mongo;
 
 import com.springweb.dv_spring_web_mongo.configuration.Config;
 import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
+import com.springweb.dv_spring_web_mongo.dto.ProjectCreateOrUpdateDTO;
 import com.springweb.dv_spring_web_mongo.exception.BadRequestException;
 import com.springweb.dv_spring_web_mongo.exception.ProjectNotFoundException;
 import com.springweb.dv_spring_web_mongo.model.Project;
@@ -129,11 +130,10 @@ public class ProjectServiceTest {
     public void addNewProjectTest() {
         //given
         projectRepository.deleteAll();
-        projectService.addNewProject(testProject.convertToDTO());
+        projectService.addNewProject(new ProjectCreateOrUpdateDTO(testProject.getProjectName()));
         //when
-        Project actual = projectRepository.findById(testProject.getId()).get();
+        Project actual = projectRepository.findProjectByProjectName(testProject.getProjectName());
         //then
-        Assertions.assertEquals(testProject.getId(), actual.getId());
         Assertions.assertEquals(testProject.getProjectName(), actual.getProjectName());
     }
 
@@ -144,7 +144,7 @@ public class ProjectServiceTest {
         projectRepository.save(testProject);
         //when
         String expectedResult = "Updated Project";
-        ProjectDTO entityWithUpdatedString = new ProjectDTO("", expectedResult);
+        ProjectCreateOrUpdateDTO entityWithUpdatedString = new ProjectCreateOrUpdateDTO(expectedResult);
         projectService.changeProjectName(entityWithUpdatedString, testId);
         Project actual = projectRepository.findById(testId).get();
         //then
