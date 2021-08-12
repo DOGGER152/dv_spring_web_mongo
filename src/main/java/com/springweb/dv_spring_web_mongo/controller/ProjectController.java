@@ -29,8 +29,8 @@ public class ProjectController {
     }
 
     @PostMapping()
-    public void addNewProject(@Valid @RequestBody ProjectCreateOrUpdateDTO projectCreateOrUpdateDTOsend) {
-        projectService.addNewProject(projectCreateOrUpdateDTOsend);
+    public void addNewProject(@Valid @RequestBody ProjectCreateOrUpdateDTO projectCreateOrUpdateDTO) {
+        projectService.addNewProject(projectCreateOrUpdateDTO);
     }
 
     @PutMapping("/{id}")

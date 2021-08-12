@@ -24,7 +24,4 @@ public class Project {
         return new ProjectDTO(this.id, this.projectName);
     }
 
-    public ProjectCreateOrUpdateDTO convertToDTOSend() {
-        return new ProjectCreateOrUpdateDTO(this.projectName);
-    }
 }

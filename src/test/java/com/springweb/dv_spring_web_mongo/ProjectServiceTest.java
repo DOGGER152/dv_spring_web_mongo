@@ -130,7 +130,7 @@ public class ProjectServiceTest {
     public void addNewProjectTest() {
         //given
         projectRepository.deleteAll();
-        projectService.addNewProject(testProject.convertToDTOSend());
+        projectService.addNewProject(new ProjectCreateOrUpdateDTO(testProject.getProjectName()));
         //when
         Project actual = projectRepository.findProjectByProjectName(testProject.getProjectName());
         //then
