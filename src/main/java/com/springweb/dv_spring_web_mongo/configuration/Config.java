@@ -12,7 +12,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.awt.print.Pageable;
 
-@PropertySource("classpath:application.properties")
+@PropertySource(value = "classpath:application.properties", ignoreResourceNotFound = true)
+
 @Configuration
 @EnableMongoRepositories(basePackages = "com.springweb.dv_spring_web_mongo.repository")
 public class Config {
