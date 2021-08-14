@@ -32,10 +32,8 @@ public class ProjectService {
         }
 
         if (pageNumber != null) {
-            if (pageSize != null) {
-                if ((pageNumber > 0 && pageSize < 1) || (pageNumber < 1 && pageSize > 0)) {
-                    throw new BadRequestException("All parameters of page must be specified, or none");
-                }
+            if ((pageNumber > 0 && pageSize < 1) || (pageNumber < 1 && pageSize > 0)) {
+                throw new BadRequestException("All parameters of page must be specified, or none");
             }
         }
 
@@ -43,10 +41,10 @@ public class ProjectService {
             list = projectRepository.findAll();
         } else if (filteringByProjectName && !paging) {
             list = projectRepository.findAllByProjectNameMatchesRegex("(?i)" + filterProjectName);
-        } else if (filteringByProjectName && paging) {
+        } else if (filteringByProjectName) {
             Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
             list = projectRepository.findAllByProjectNameMatchesRegex(filterProjectName, pageable);
-        } else if (!filteringByProjectName && paging) {
+        } else if (paging) {
             Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
             Page<Project> page = projectRepository.findAll(pageable);
             list = page.toList();
