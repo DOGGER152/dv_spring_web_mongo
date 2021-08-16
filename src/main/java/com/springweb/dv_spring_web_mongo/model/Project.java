@@ -2,7 +2,6 @@ package com.springweb.dv_spring_web_mongo.model;
 
 
 import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
-import com.springweb.dv_spring_web_mongo.dto.ProjectCreateOrUpdateDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
