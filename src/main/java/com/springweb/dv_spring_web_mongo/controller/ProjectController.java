@@ -1,10 +1,9 @@
 package com.springweb.dv_spring_web_mongo.controller;
 
-import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
 import com.springweb.dv_spring_web_mongo.dto.ProjectCreateOrUpdateDTO;
+import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
 import com.springweb.dv_spring_web_mongo.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -40,7 +39,7 @@ public class ProjectController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize(value = "hasAnyRole(USER)")
+    //@PreAuthorize(value = "hasRole()")
     public void deleteProject(@PathVariable String id) {
         projectService.deleteProject(id);
     }
