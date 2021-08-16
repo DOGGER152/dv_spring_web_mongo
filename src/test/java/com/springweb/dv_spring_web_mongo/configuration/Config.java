@@ -12,8 +12,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-@PropertySource(value = "classpath:application.properties", ignoreResourceNotFound = true)
-@PropertySource(value = "classpath:mentor_application.properties")
+@PropertySource(value = "classpath:application.properties")
+@PropertySource(value = "classpath:mentor_application.properties", ignoreResourceNotFound = true)
 @Configuration
 @EnableMongoRepositories(basePackages = "com.springweb.dv_spring_web_mongo")
 @ComponentScan(basePackages = "com.springweb.dv_spring_web_mongo")
