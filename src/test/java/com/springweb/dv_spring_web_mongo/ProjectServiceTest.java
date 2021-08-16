@@ -68,8 +68,8 @@ public class ProjectServiceTest {
         Project testProject2 = new Project("", "Project two");
         Project testProject3 = new Project("", "Project three");
         projectRepository.save(testProject1);
-        projectRepository.save(testProject1);
-        projectRepository.save(testProject1);
+        projectRepository.save(testProject2);
+        projectRepository.save(testProject3);
         //when
         List<ProjectDTO> list1 = projectService.getAllProjects(null, 1, 1);
         List<ProjectDTO> list2 = projectService.getAllProjects(null, 2, 1);
@@ -137,12 +137,14 @@ public class ProjectServiceTest {
         String expectedResult = "Updated Project";
         ProjectCreateOrUpdateDTO entityWithUpdatedString = new ProjectCreateOrUpdateDTO(expectedResult);
         projectService.changeProjectName(entityWithUpdatedString, testId);
-        Project actual = projectRepository.findById(testId).get();
+        Optional<Project> optional = projectRepository.findById(testId);
+        Assertions.assertTrue(optional.isPresent());
+        Project actual = optional.get();
         //then
         Assertions.assertEquals(expectedResult, actual.getProjectName());
         Assertions.assertEquals(testId, actual.getId());
         Assertions.assertThrows(ProjectNotFoundException.class, () ->
-                projectService.changeProjectName(null, "000"));
+                projectService.changeProjectName(entityWithUpdatedString, "000"));
     }
 
     @Test

@@ -1,12 +1,12 @@
 package com.springweb.dv_spring_web_mongo.service;
 
-import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
 import com.springweb.dv_spring_web_mongo.dto.ProjectCreateOrUpdateDTO;
+import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
 import com.springweb.dv_spring_web_mongo.exception.BadRequestException;
 import com.springweb.dv_spring_web_mongo.exception.ProjectNotFoundException;
 import com.springweb.dv_spring_web_mongo.model.Project;
 import com.springweb.dv_spring_web_mongo.repository.ProjectRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,13 +17,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ProjectService {
 
-    @Autowired
-    private ProjectRepository projectRepository;
+    private final ProjectRepository projectRepository;
 
     public List<ProjectDTO> getAllProjects(String filterProjectName, Integer pageSize, Integer pageNumber) {
-        List<Project> list = null;
+        List<Project> list;
         boolean paging = pageNumber != null;
         boolean filteringByProjectName = !(filterProjectName == null);
 
@@ -44,7 +44,7 @@ public class ProjectService {
         } else if (filteringByProjectName) {
             Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
             list = projectRepository.findAllByProjectNameMatchesRegex(filterProjectName, pageable);
-        } else if (paging) {
+        } else {
             Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
             Page<Project> page = projectRepository.findAll(pageable);
             list = page.toList();
