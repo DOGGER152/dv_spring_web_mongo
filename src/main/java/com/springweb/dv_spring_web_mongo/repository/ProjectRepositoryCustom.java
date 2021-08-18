@@ -1,41 +1,44 @@
 package com.springweb.dv_spring_web_mongo.repository;
 
 import com.springweb.dv_spring_web_mongo.model.Project;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class ProjectRepositoryCustom {
-    @Autowired
-    private MongoTemplate mongoTemplate;
 
+    private final MongoTemplate mongoTemplate;
+
+    @SuppressWarnings("unused")
     public List<Project> findAll() {
-        List<Project> list = mongoTemplate.findAll(Project.class);
-        return list;
+        return mongoTemplate.findAll(Project.class);
     }
 
+    @SuppressWarnings("unused")
     public Project findById(String id) {
         Query search = new Query(Criteria.where("_id").is(id));
-        Project project = mongoTemplate.findOne(search, Project.class);
-        return project;
+        return mongoTemplate.findOne(search, Project.class);
     }
 
+    @SuppressWarnings("unused")
     public void insert(Project project) {
         mongoTemplate.save(project);
     }
 
+    @SuppressWarnings("unused")
     public void update(Project project, String id) {
         Query search = new Query(Criteria.where("_id").is(id));
         mongoTemplate.updateFirst(search, Update.update("projectName", project.getProjectName()), Project.class);
     }
 
+    @SuppressWarnings("unused")
     public void delete(String id) {
         Query search = new Query(Criteria.where("_id").is(id));
         mongoTemplate.remove(search, Project.class);

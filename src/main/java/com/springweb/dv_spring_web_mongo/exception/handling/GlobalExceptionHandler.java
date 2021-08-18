@@ -8,6 +8,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.Objects;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -28,7 +30,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     ResponseEntity<ProjectIncorrectData> handleException(MethodArgumentNotValidException ex) {
         ProjectIncorrectData projectIncorrectData = new ProjectIncorrectData();
-        projectIncorrectData.setErrorMessage("Incorrect value: " + ex.getFieldError().getField());
+        projectIncorrectData.setErrorMessage("Incorrect value: " + Objects.requireNonNull(ex.getFieldError()).getField());
         return new ResponseEntity<>(projectIncorrectData, HttpStatus.BAD_REQUEST);
     }
 
