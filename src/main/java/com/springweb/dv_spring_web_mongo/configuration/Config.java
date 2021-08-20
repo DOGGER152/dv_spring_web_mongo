@@ -7,12 +7,9 @@ import com.mongodb.client.MongoClients;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-@PropertySource(value = "classpath:application.properties")
-@PropertySource(value = "classpath:mentor_application.properties", ignoreResourceNotFound = true)
 @Configuration
 @EnableMongoRepositories(basePackages = "com.springweb.dv_spring_web_mongo.repository")
 public class Config {
