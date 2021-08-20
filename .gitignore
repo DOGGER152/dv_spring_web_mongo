@@ -1,4 +1,5 @@
 /.idea/
 /target/
-/*.iml
-/mentor_application.properties/
+/*.iml/
+/src/main/resources/mentor_application.properties
+/resources/mentor_application.properties/
