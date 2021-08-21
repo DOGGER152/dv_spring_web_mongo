@@ -4,7 +4,6 @@ import com.springweb.dv_spring_web_mongo.model.Project;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotNull;
 
@@ -17,6 +16,6 @@ public class ProjectCreateOrUpdateDTO {
     String projectName;
 
     public Project convertToProject() {
-        return new Project(null, this.projectName);
+        return new Project(null, this.projectName, null);
     }
 }

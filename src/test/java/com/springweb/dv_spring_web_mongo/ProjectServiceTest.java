@@ -31,7 +31,7 @@ public class ProjectServiceTest {
 
     private String testId = "12345";
 
-    private Project testProject = new Project(testId, testName);
+    private Project testProject = new Project(testId, testName, null);
 
     @Test
     public void getAllProjectsTest() {
