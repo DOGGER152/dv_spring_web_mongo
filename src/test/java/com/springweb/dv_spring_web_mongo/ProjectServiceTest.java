@@ -40,7 +40,7 @@ public class ProjectServiceTest {
         projectRepository.save(testProject);
         String secondProjectName = "Another test project";
         String secondProjectId = "54321";
-        projectRepository.save(new Project(secondProjectId, secondProjectName));
+        projectRepository.save(new Project(secondProjectId, secondProjectName, null));
         //when
         List<ProjectDTO> list1 = projectService.getAllProjects(null, null, null);
         ProjectDTO project = list1.get(0);
@@ -63,9 +63,9 @@ public class ProjectServiceTest {
     public void getAllProjectsPaginationAndFilteringTest() {
         //given
         projectRepository.deleteAll();
-        Project testProject1 = new Project("", "Project one");
-        Project testProject2 = new Project("", "Project two");
-        Project testProject3 = new Project("", "Project three");
+        Project testProject1 = new Project("", "Project one", "");
+        Project testProject2 = new Project("", "Project two", null);
+        Project testProject3 = new Project("", "Project three", null);
         projectRepository.save(testProject1);
         projectRepository.save(testProject1);
         projectRepository.save(testProject1);
