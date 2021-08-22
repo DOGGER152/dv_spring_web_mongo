@@ -1,10 +1,12 @@
 package com.springweb.dv_spring_web_mongo.model;
 
-import com.springweb.dv_spring_web_mongo.enums.UserRole;
+import com.springweb.dv_spring_web_mongo.Role.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.Collection;
 
 @Data
 @NoArgsConstructor
@@ -16,6 +18,6 @@ public class User {
 
     private String password;
 
-    private UserRole userRole;
+    private Collection<Role> roleCollection;
 
 }
