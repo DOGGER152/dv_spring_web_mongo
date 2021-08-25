@@ -1,10 +1,13 @@
 package com.springweb.dv_spring_web_mongo.Role;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+public enum Role {
 
-@Data
-@AllArgsConstructor
-public class Role {
-    private String Role;
+    ADMIN("ROLE_ADMIN"),
+    USER("ROLE_USER");
+
+    private String role;
+
+    Role(String role) {
+        this.role = role;
+    }
 }
