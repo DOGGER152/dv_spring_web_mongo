@@ -27,11 +27,11 @@ public class ProjectServiceTest {
     @Autowired
     private ProjectService projectService;
 
-    private String testName = "Test project";
+    private final String testName = "Test project";
 
-    private String testId = "12345";
+    private final String testId = "12345";
 
-    private Project testProject = new Project(testId, testName, null);
+    private final Project testProject = new Project(testId, testName, null);
 
     @Test
     public void getAllProjectsTest() {
