@@ -1,18 +1,15 @@
 package com.springweb.dv_spring_web_mongo.model;
 
-public enum Role {
+import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
 
-    ADMIN("ROLE_ADMIN"),
-    USER("ROLE_USER");
+@Data
+public class Role implements GrantedAuthority {
 
-    private String role;
-
-    Role(String role) {
-        this.role = role;
-    }
+    private String roleName;
 
     @Override
-    public String toString() {
-        return role;
+    public String getAuthority() {
+        return roleName;
     }
 }

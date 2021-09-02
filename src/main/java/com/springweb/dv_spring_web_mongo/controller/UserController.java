@@ -1,9 +1,13 @@
 package com.springweb.dv_spring_web_mongo.controller;
 
+import com.springweb.dv_spring_web_mongo.dto.UserRegisterDTO;
 import com.springweb.dv_spring_web_mongo.service.UserService;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/user")
@@ -16,19 +20,12 @@ public class UserController {
     }
 
     @PutMapping("/register")
-    public void registerNewUser() {
-        userService.registerNewUser();
+    public void registerNewUser(@Valid @RequestBody UserRegisterDTO userRegisterDTO) {
+        userService.registerNewUser(userRegisterDTO);
     }
 
     @RequestMapping("/login")
     public void userLogin() {
         userService.userLogin();
     }
-
-
-    @RequestMapping("/logout")
-    public void userLogout() {
-        userService.userLogout();
-    }
-
 }

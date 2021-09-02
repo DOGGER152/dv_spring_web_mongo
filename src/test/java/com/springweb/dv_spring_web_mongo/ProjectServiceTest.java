@@ -1,8 +1,8 @@
 package com.springweb.dv_spring_web_mongo;
 
 import com.springweb.dv_spring_web_mongo.configuration.Config;
-import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
 import com.springweb.dv_spring_web_mongo.dto.ProjectCreateOrUpdateDTO;
+import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
 import com.springweb.dv_spring_web_mongo.exception.BadRequestException;
 import com.springweb.dv_spring_web_mongo.exception.ProjectNotFoundException;
 import com.springweb.dv_spring_web_mongo.model.Project;
@@ -31,7 +31,7 @@ public class ProjectServiceTest {
 
     private final String testId = "12345";
 
-    private final Project testProject = new Project(testId, testName, null);
+    private final Project testProject = new Project(testId, testName);
 
     @Test
     public void getAllProjectsTest() {
@@ -40,7 +40,7 @@ public class ProjectServiceTest {
         projectRepository.save(testProject);
         String secondProjectName = "Another test project";
         String secondProjectId = "54321";
-        projectRepository.save(new Project(secondProjectId, secondProjectName, null));
+        projectRepository.save(new Project(secondProjectId, secondProjectName));
         //when
         List<ProjectDTO> list1 = projectService.getAllProjects(null, null, null);
         ProjectDTO project = list1.get(0);
@@ -63,9 +63,9 @@ public class ProjectServiceTest {
     public void getAllProjectsPaginationAndFilteringTest() {
         //given
         projectRepository.deleteAll();
-        Project testProject1 = new Project("", "Project one", "");
-        Project testProject2 = new Project("", "Project two", null);
-        Project testProject3 = new Project("", "Project three", null);
+        Project testProject1 = new Project("", "Project one");
+        Project testProject2 = new Project("", "Project two");
+        Project testProject3 = new Project("", "Project three");
         projectRepository.save(testProject1);
         projectRepository.save(testProject1);
         projectRepository.save(testProject1);
