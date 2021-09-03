@@ -2,7 +2,7 @@ package com.springweb.dv_spring_web_mongo.controller;
 
 import com.springweb.dv_spring_web_mongo.dto.UserRegisterDTO;
 import com.springweb.dv_spring_web_mongo.service.UserService;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +19,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PutMapping("/register")
+    @PostMapping("/register")
     public void registerNewUser(@Valid @RequestBody UserRegisterDTO userRegisterDTO) {
         userService.registerNewUser(userRegisterDTO);
     }

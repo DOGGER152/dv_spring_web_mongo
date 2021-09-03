@@ -2,11 +2,13 @@ package com.springweb.dv_spring_web_mongo.service;
 
 import com.springweb.dv_spring_web_mongo.dto.UserRegisterDTO;
 import com.springweb.dv_spring_web_mongo.exception.UserAlreadyExistException;
+import com.springweb.dv_spring_web_mongo.model.Role;
 import com.springweb.dv_spring_web_mongo.model.User;
 import com.springweb.dv_spring_web_mongo.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -23,6 +25,7 @@ public class UserService {
     public void registerNewUser(UserRegisterDTO userRegisterDTO) {
         checkIfUserExists(userRegisterDTO.getUserName());
         userRegisterDTO.setPassword(passwordEncoder.encode(userRegisterDTO.getPassword()));
+        userRegisterDTO.setRoleSet(Collections.singleton(new Role("ROLE_USER")));
         userRepository.save(userRegisterDTO.convertToUser());
     }
 
