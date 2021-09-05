@@ -5,6 +5,8 @@ import com.springweb.dv_spring_web_mongo.exception.UserAlreadyExistException;
 import com.springweb.dv_spring_web_mongo.model.Role;
 import com.springweb.dv_spring_web_mongo.model.User;
 import com.springweb.dv_spring_web_mongo.repository.UserRepository;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,7 +15,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -33,7 +35,7 @@ public class UserService {
     }
 
     public void userLogin() {
-
+        
     }
 
     public void updatePassword(UserCreateOrUpdateDTO userCreateOrUpdateDTO) {
@@ -42,18 +44,22 @@ public class UserService {
             throw new UsernameNotFoundException("User not found");
         }
 
-        User userFromDB = userRepository.findUserByUserName(userCreateOrUpdateDTO.getUserName()).get();
         User userToUpdate = userCreateOrUpdateDTO.convertToUser();
-        userToUpdate.setPassword(userFromDB.getPassword());
+        userToUpdate.setPassword(passwordEncoder.encode(userCreateOrUpdateDTO.getPassword()));
         userRepository.save(userToUpdate);
     }
 
     private boolean checkIfUserExists(String name) {
         Optional<User> optionalUser = userRepository.findUserByUserName(name);
-        if (optionalUser.isPresent()) {
-            return true;
-        }
-        return false;
+        return optionalUser.isPresent();
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        Optional<User> optionalUser = userRepository.findUserByUserName(s);
+        if (optionalUser.isEmpty()) {
+            throw new UsernameNotFoundException("User name with username '" + s + " not found");
+        }
+        return optionalUser.get();
+    }
 }

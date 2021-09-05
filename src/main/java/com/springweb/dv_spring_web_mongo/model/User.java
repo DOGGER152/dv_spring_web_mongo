@@ -60,7 +60,4 @@ public class User implements UserDetails {
         return true;
     }
 
-    public User convertToCOUDto() {
-        return new User(userName, password, roleSet);
-    }
 }
