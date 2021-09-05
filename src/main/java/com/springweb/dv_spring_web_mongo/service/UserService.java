@@ -1,10 +1,11 @@
 package com.springweb.dv_spring_web_mongo.service;
 
-import com.springweb.dv_spring_web_mongo.dto.UserRegisterDTO;
+import com.springweb.dv_spring_web_mongo.dto.UserCreateOrUpdateDTO;
 import com.springweb.dv_spring_web_mongo.exception.UserAlreadyExistException;
 import com.springweb.dv_spring_web_mongo.model.Role;
 import com.springweb.dv_spring_web_mongo.model.User;
 import com.springweb.dv_spring_web_mongo.repository.UserRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,22 +23,37 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void registerNewUser(UserRegisterDTO userRegisterDTO) {
-        checkIfUserExists(userRegisterDTO.getUserName());
-        userRegisterDTO.setPassword(passwordEncoder.encode(userRegisterDTO.getPassword()));
-        userRegisterDTO.setRoleSet(Collections.singleton(new Role("ROLE_USER")));
-        userRepository.save(userRegisterDTO.convertToUser());
+    public void registerNewUser(UserCreateOrUpdateDTO userCreateOrUpdateDTO) {
+        if (checkIfUserExists(userCreateOrUpdateDTO.getUserName())) {
+            throw new UserAlreadyExistException("User already exists");
+        }
+        userCreateOrUpdateDTO.setPassword(passwordEncoder.encode(userCreateOrUpdateDTO.getPassword()));
+        userCreateOrUpdateDTO.setRoleSet(Collections.singleton(new Role("ROLE_USER")));
+        userRepository.save(userCreateOrUpdateDTO.convertToUser());
     }
 
     public void userLogin() {
 
     }
 
-    private void checkIfUserExists(String name) {
+    public void updatePassword(UserCreateOrUpdateDTO userCreateOrUpdateDTO) {
+
+        if (!checkIfUserExists(userCreateOrUpdateDTO.getUserName())) {
+            throw new UsernameNotFoundException("User not found");
+        }
+
+        User userFromDB = userRepository.findUserByUserName(userCreateOrUpdateDTO.getUserName()).get();
+        User userToUpdate = userCreateOrUpdateDTO.convertToUser();
+        userToUpdate.setPassword(userFromDB.getPassword());
+        userRepository.save(userToUpdate);
+    }
+
+    private boolean checkIfUserExists(String name) {
         Optional<User> optionalUser = userRepository.findUserByUserName(name);
         if (optionalUser.isPresent()) {
-            throw new UserAlreadyExistException("User already exists");
+            return true;
         }
+        return false;
     }
 
 }

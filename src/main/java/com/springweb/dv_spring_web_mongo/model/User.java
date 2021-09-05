@@ -59,4 +59,8 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public User convertToCOUDto() {
+        return new User(userName, password, roleSet);
+    }
 }

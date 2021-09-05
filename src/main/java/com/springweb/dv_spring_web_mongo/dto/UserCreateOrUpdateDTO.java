@@ -13,7 +13,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class UserRegisterDTO {
+public class UserCreateOrUpdateDTO {
     @NotNull
     @NonNull
     private String userName;

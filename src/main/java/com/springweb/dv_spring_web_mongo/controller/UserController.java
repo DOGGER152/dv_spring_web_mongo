@@ -1,11 +1,8 @@
 package com.springweb.dv_spring_web_mongo.controller;
 
-import com.springweb.dv_spring_web_mongo.dto.UserRegisterDTO;
+import com.springweb.dv_spring_web_mongo.dto.UserCreateOrUpdateDTO;
 import com.springweb.dv_spring_web_mongo.service.UserService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -20,12 +17,18 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public void registerNewUser(@Valid @RequestBody UserRegisterDTO userRegisterDTO) {
-        userService.registerNewUser(userRegisterDTO);
+    public void registerNewUser(@Valid @RequestBody UserCreateOrUpdateDTO userCreateOrUpdateDTO) {
+        userService.registerNewUser(userCreateOrUpdateDTO);
+    }
+
+    @PutMapping("/updatePassword")
+    public void updatePassword(@Valid @RequestBody UserCreateOrUpdateDTO userCreateOrUpdateDTO) {
+        userService.updatePassword(userCreateOrUpdateDTO);
     }
 
     @RequestMapping("/login")
     public void userLogin() {
         userService.userLogin();
     }
+
 }
