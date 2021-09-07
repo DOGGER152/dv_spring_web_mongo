@@ -30,7 +30,7 @@ public class UserService implements UserDetailsService {
             throw new UserAlreadyExistException("User already exists");
         }
         userCreateOrUpdateDTO.setPassword(passwordEncoder.encode(userCreateOrUpdateDTO.getPassword()));
-        userCreateOrUpdateDTO.setRoleSet(Collections.singleton(new Role("ROLE_USER")));
+        userCreateOrUpdateDTO.setRoleSet(Collections.singleton(Role.ROLE_USER));
         userRepository.save(userCreateOrUpdateDTO.convertToUser());
     }
 

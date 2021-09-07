@@ -49,7 +49,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .password(passwordEncoder().encode("user"))
                 .roles("USER")
                 .and()
-                .passwordEncoder(passwordEncoder());
+                .passwordEncoder(passwordEncoder())
+                .and()
+        ;
     }
 
     @Bean
