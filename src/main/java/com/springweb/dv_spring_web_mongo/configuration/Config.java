@@ -15,7 +15,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @PropertySources({@PropertySource(value = "classpath:application1.properties")
         , @PropertySource(value = "classpath:custom.application.properties", ignoreResourceNotFound = true)
 })
-
 @Configuration
 @EnableMongoRepositories(basePackages = "com.springweb.dv_spring_web_mongo.repository")
 public class Config {

@@ -1,9 +1,8 @@
 package com.springweb.dv_spring_web_mongo.controller;
 
-import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
 import com.springweb.dv_spring_web_mongo.dto.ProjectCreateOrUpdateDTO;
+import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
 import com.springweb.dv_spring_web_mongo.service.ProjectService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -13,8 +12,12 @@ import java.util.List;
 @RequestMapping("/api/projects")
 public class ProjectController {
 
-    @Autowired
+    final
     ProjectService projectService;
+
+    public ProjectController(ProjectService projectService) {
+        this.projectService = projectService;
+    }
 
     @GetMapping
     public List<ProjectDTO> getAllProjects(@RequestParam(required = false) String filterProjectName,
