@@ -2,3 +2,4 @@
 /target/
 /*.iml
 /src/main/resources/custom.application.properties
+/src/test/resources/custom.application.properties
