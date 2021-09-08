@@ -5,14 +5,13 @@ import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-@PropertySource("classpath:application.properties")
+@PropertySources({@PropertySource(value = "classpath:application1.properties")
+        , @PropertySource(value = "classpath:custom.application.properties", ignoreResourceNotFound = true)
+})
 @Configuration
 @EnableMongoRepositories(basePackages = "com.springweb.dv_spring_web_mongo")
 @ComponentScan(basePackages = "com.springweb.dv_spring_web_mongo")
