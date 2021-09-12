@@ -34,10 +34,6 @@ public class UserService implements UserDetailsService {
         userRepository.save(userCreateOrUpdateDTO.convertToUser());
     }
 
-    public void userLogin() {
-        
-    }
-
     public void updatePassword(UserCreateOrUpdateDTO userCreateOrUpdateDTO) {
 
         if (!checkIfUserExists(userCreateOrUpdateDTO.getUserName())) {

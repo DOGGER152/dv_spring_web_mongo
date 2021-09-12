@@ -25,10 +25,4 @@ public class UserController {
     public void updatePassword(@Valid @RequestBody UserCreateOrUpdateDTO userCreateOrUpdateDTO) {
         userService.updatePassword(userCreateOrUpdateDTO);
     }
-
-    @RequestMapping("/login")
-    public void userLogin() {
-        userService.userLogin();
-    }
-
 }
