@@ -2,19 +2,17 @@ package com.springweb.dv_spring_web_mongo.controller;
 
 import com.springweb.dv_spring_web_mongo.dto.UserCreateOrUpdateDTO;
 import com.springweb.dv_spring_web_mongo.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/user")
 public class UserController {
 
-    final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private final UserService userService;
 
     @PostMapping("/register")
     public void registerNewUser(@Valid @RequestBody UserCreateOrUpdateDTO userCreateOrUpdateDTO) {

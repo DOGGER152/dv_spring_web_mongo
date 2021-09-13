@@ -3,7 +3,7 @@ package com.springweb.dv_spring_web_mongo.controller;
 import com.springweb.dv_spring_web_mongo.dto.ProjectCreateOrUpdateDTO;
 import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
 import com.springweb.dv_spring_web_mongo.service.ProjectService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,10 +12,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/projects")
+@RequiredArgsConstructor
 public class ProjectController {
 
-    @Autowired
-    ProjectService projectService;
+    private final ProjectService projectService;
 
     @GetMapping
     public List<ProjectDTO> getAllProjects(@RequestParam(required = false) String filterProjectName,
