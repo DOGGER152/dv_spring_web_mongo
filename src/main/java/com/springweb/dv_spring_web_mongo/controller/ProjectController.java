@@ -35,7 +35,7 @@ public class ProjectController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasPermission(#id, 'Project', 'projectOwner')")
     public void changeProjectName(@Valid @RequestBody ProjectCreateOrUpdateDTO projectCreateOrUpdateDTO, @PathVariable String id) {
         projectService.changeProjectName(projectCreateOrUpdateDTO, id);
     }
