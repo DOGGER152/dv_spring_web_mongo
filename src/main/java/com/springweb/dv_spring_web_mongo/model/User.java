@@ -22,7 +22,7 @@ public class User implements UserDetails {
     private String id;
 
     @NonNull
-    private String userName;
+    private String username;
 
     @NonNull
     private String password;
@@ -37,7 +37,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userName;
+        return username;
     }
 
     @Override

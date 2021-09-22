@@ -1,12 +1,10 @@
 package com.springweb.dv_spring_web_mongo.service;
 
 import com.springweb.dv_spring_web_mongo.dto.UserCreateOrUpdateDTO;
-import com.springweb.dv_spring_web_mongo.exception.UserAlreadyExistException;
 import com.springweb.dv_spring_web_mongo.model.Role;
 import com.springweb.dv_spring_web_mongo.model.User;
 import com.springweb.dv_spring_web_mongo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,19 +19,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserDetailsService, UserService {
 
-    private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public void registerNewUser(UserCreateOrUpdateDTO userCreateOrUpdateDTO) {
-        if (checkIfUserExists(userCreateOrUpdateDTO.getUserName())) {
-            throw new UserAlreadyExistException("User already exists");
-        }
+        checkIfUserExists(userCreateOrUpdateDTO);
         userCreateOrUpdateDTO.setPassword(passwordEncoder.encode(userCreateOrUpdateDTO.getPassword()));
         userCreateOrUpdateDTO.setRoleSet(Collections.singleton(Role.ROLE_USER));
         userRepository.save(userCreateOrUpdateDTO.convertToUser());
@@ -41,47 +31,40 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     public void updatePassword(UserCreateOrUpdateDTO userCreateOrUpdateDTO) {
 
-        if (!checkIfUserExists(userCreateOrUpdateDTO.getUserName())) {
-            throw new UsernameNotFoundException("User not found");
-        }
-
         User userToUpdate = userCreateOrUpdateDTO.convertToUser();
         userToUpdate.setPassword(passwordEncoder.encode(userCreateOrUpdateDTO.getPassword()));
         userRepository.save(userToUpdate);
     }
 
-    private boolean checkIfUserExists(String name) {
-        Optional<User> optionalUser = userRepository.findUserByUserName(name);
-        return optionalUser.isPresent();
+    private void checkIfUserExists(UserCreateOrUpdateDTO dto) {
+        Optional<User> optionalUser = userRepository.findUserByUsername(dto.getUserName());
+        if (optionalUser.isEmpty()) {
+            throw new UsernameNotFoundException("User '" + dto.getUserName() + "' not found");
+        }
     }
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Optional<User> optionalUser = userRepository.findUserByUserName(s);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> optionalUser = userRepository.findUserByUsername(username);
         if (optionalUser.isEmpty()) {
-            throw new UsernameNotFoundException("User name with username '" + s + " not found");
+            throw new UsernameNotFoundException("User name with username '" + username + " not found");
         }
         return optionalUser.get();
     }
 
     @PostConstruct
     private void createDefaultUsers() {
-        User user = new User("user"
-                , passwordEncoder.encode("user")
-                , Collections.singleton(Role.ROLE_USER));
 
-        User admin = new User("admin"
-                , passwordEncoder.encode("admin")
-                , Collections.singleton(Role.ROLE_ADMIN));
+        createUserIfNotExists("user", "user", Role.ROLE_USER);
 
-        Optional<User> optionalUser = userRepository.findUserByUserName("user");
-        if (optionalUser.isEmpty()) {
+        createUserIfNotExists("admin", "admin", Role.ROLE_ADMIN);
+    }
+
+    private void createUserIfNotExists(String username, String password, Role role) {
+        Optional<User> optional = userRepository.findUserByUsername(username);
+        if (optional.isEmpty()) {
+            User user = new User(username, passwordEncoder.encode(password), Collections.singleton(role));
             userRepository.save(user);
-        }
-
-        Optional<User> optionalAdmin = userRepository.findUserByUserName("admin");
-        if (optionalAdmin.isEmpty()) {
-            userRepository.save(admin);
         }
     }
 }

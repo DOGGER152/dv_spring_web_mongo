@@ -7,8 +7,9 @@ import com.springweb.dv_spring_web_mongo.exception.BadRequestException;
 import com.springweb.dv_spring_web_mongo.exception.ProjectNotFoundException;
 import com.springweb.dv_spring_web_mongo.model.Project;
 import com.springweb.dv_spring_web_mongo.repository.ProjectRepository;
-import com.springweb.dv_spring_web_mongo.service.ProjectServiceImpl;
+import com.springweb.dv_spring_web_mongo.service.ProjectService;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
@@ -25,7 +26,7 @@ public class ProjectServiceTest {
     private ProjectRepository projectRepository;
 
     @Autowired
-    private ProjectServiceImpl projectService;
+    private ProjectService projectService;
 
     private final String testName = "Test project";
 
@@ -123,16 +124,17 @@ public class ProjectServiceTest {
         });
     }
 
-//    @Test
-//    public void addNewProjectTest() {
-//        //given
-//        projectRepository.deleteAll();
-//        projectService.addNewProject(new ProjectCreateOrUpdateDTO(testProject.getProjectName()));
-//        //when
-//        Project actual = projectRepository.findProjectByProjectName(testProject.getProjectName());
-//        //then
-//        Assertions.assertEquals(testProject.getProjectName(), actual.getProjectName());
-//    }
+    @Test
+    @Disabled
+    public void addNewProjectTest() {
+        //given
+        projectRepository.deleteAll();
+        projectService.addNewProject(new ProjectCreateOrUpdateDTO(testProject.getProjectName()));
+        //when
+        Project actual = projectRepository.findProjectByProjectName(testProject.getProjectName());
+        //then
+        Assertions.assertEquals(testProject.getProjectName(), actual.getProjectName());
+    }
 
     @Test
     public void changeProjectNameTest() {

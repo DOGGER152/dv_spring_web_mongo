@@ -41,7 +41,7 @@ public class ProjectController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasPermission(#id, 'Project', 'projectOwner')")
     public void deleteProject(@PathVariable String id) {
         projectService.deleteProject(id);
     }

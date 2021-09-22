@@ -14,11 +14,11 @@ import java.io.Serializable;
 public class CustomPermissionEvaluator implements PermissionEvaluator {
 
     @Autowired
-    ProjectService projectService;
+    private ProjectService projectService;
 
     //not implemented
     @Override
-    public boolean hasPermission(Authentication authentication, Object o, Object o1) {
+    public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
         throw new ApplicationContextException("Method unavailable");
     }
 
