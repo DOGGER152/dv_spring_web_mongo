@@ -15,12 +15,17 @@ public class LoggingAspect {
 
     private Logger logger = LoggerFactory.getLogger(ProjectService.class);
 
-    @Pointcut(value = "execution(public * com.springweb.dv_spring_web_mongo.service.*(..))")
+    @Pointcut("@annotation(org.springframework.web.bind.annotation.GetMapping)" +
+            "|| @annotation(org.springframework.web.bind.annotation.PostMapping)" +
+            "|| @annotation(org.springframework.web.bind.annotation.PutMapping)" +
+            "|| @annotation(org.springframework.web.bind.annotation.DeleteMapping)")
     public void anyRequestInProjectService() {
     }
 
     @Before("anyRequestInProjectService()")
     public void beforeServiceMethod() {
+        
+        logger.info("Incoming HTTP request type:" + null);
     }
 
     @After("anyRequestInProjectService()")
