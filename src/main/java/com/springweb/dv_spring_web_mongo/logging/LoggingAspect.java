@@ -1,6 +1,7 @@
 package com.springweb.dv_spring_web_mongo.logging;
 
 import com.springweb.dv_spring_web_mongo.service.ProjectService;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -18,13 +19,13 @@ public class LoggingAspect {
     @Pointcut("@annotation(org.springframework.web.bind.annotation.GetMapping)" +
             "|| @annotation(org.springframework.web.bind.annotation.PostMapping)" +
             "|| @annotation(org.springframework.web.bind.annotation.PutMapping)" +
-            "|| @annotation(org.springframework.web.bind.annotation.DeleteMapping)")
+            "|| @annotation(org.springframework.web.bind.annotation.DeleteMapping)" +
+            "|| @annotation(org.springframework.web.bind.annotation.RequestMapping)")
     public void anyRequestInProjectService() {
     }
 
     @Before("anyRequestInProjectService()")
-    public void beforeServiceMethod() {
-        
+    public void beforeServiceMethod(JoinPoint jp) {
         logger.info("Incoming HTTP request type:" + null);
     }
 
