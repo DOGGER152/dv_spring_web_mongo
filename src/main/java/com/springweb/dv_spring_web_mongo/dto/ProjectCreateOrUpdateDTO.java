@@ -16,6 +16,6 @@ public class ProjectCreateOrUpdateDTO {
     String projectName;
 
     public Project convertToProject() {
-        return new Project(null, this.projectName);
+        return new Project(this.projectName);
     }
 }

@@ -1,8 +1,8 @@
 package com.springweb.dv_spring_web_mongo;
 
 import com.springweb.dv_spring_web_mongo.configuration.Config;
-import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
 import com.springweb.dv_spring_web_mongo.dto.ProjectCreateOrUpdateDTO;
+import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
 import com.springweb.dv_spring_web_mongo.exception.BadRequestException;
 import com.springweb.dv_spring_web_mongo.exception.ProjectNotFoundException;
 import com.springweb.dv_spring_web_mongo.model.Project;
@@ -32,7 +32,7 @@ public class ProjectServiceTest {
 
     private final String testId = "12345";
 
-    private final Project testProject = new Project(testId, testName);
+    private final Project testProject = new Project(testName);
 
     @Test
     public void getAllProjectsTest() {
@@ -40,15 +40,13 @@ public class ProjectServiceTest {
         projectRepository.deleteAll();
         projectRepository.save(testProject);
         String secondProjectName = "Another test project";
-        String secondProjectId = "54321";
-        projectRepository.save(new Project(secondProjectId, secondProjectName));
+        projectRepository.save(new Project(secondProjectName));
         //when
         List<ProjectDTO> list1 = projectService.getAllProjects(null, null, null);
         ProjectDTO project = list1.get(0);
         //then
         Assertions.assertEquals(2, list1.size());
         Assertions.assertNotNull(project);
-        Assertions.assertEquals(testId, project.getId());
         Assertions.assertEquals(testName, project.getProjectName());
         //when
         List<ProjectDTO> list2 = projectService.getAllProjects("another", null, null);
@@ -56,7 +54,6 @@ public class ProjectServiceTest {
         //then
         Assertions.assertEquals(1, list2.size());
         Assertions.assertNotNull(project2);
-        Assertions.assertEquals(secondProjectId, project2.getId());
         Assertions.assertEquals(secondProjectName, project2.getProjectName());
     }
 
@@ -64,9 +61,9 @@ public class ProjectServiceTest {
     public void getAllProjectsPaginationAndFilteringTest() {
         //given
         projectRepository.deleteAll();
-        Project testProject1 = new Project("", "Project one");
-        Project testProject2 = new Project("", "Project two");
-        Project testProject3 = new Project("", "Project three");
+        Project testProject1 = new Project("Project one");
+        Project testProject2 = new Project("Project two");
+        Project testProject3 = new Project("Project three");
         projectRepository.save(testProject1);
         projectRepository.save(testProject2);
         projectRepository.save(testProject3);
@@ -121,11 +118,13 @@ public class ProjectServiceTest {
     public void addNewProjectTest() {
         //given
         projectRepository.deleteAll();
-        projectService.addNewProject(new ProjectCreateOrUpdateDTO(testProject.getProjectName()));
+        String testOwnerId = "TestOwnerId";
+        projectService.addNewProject(new ProjectCreateOrUpdateDTO(testName), testOwnerId);
         //when
         Project actual = projectRepository.findProjectByProjectName(testProject.getProjectName());
         //then
         Assertions.assertEquals(testProject.getProjectName(), actual.getProjectName());
+        Assertions.assertEquals(testOwnerId, actual.getOwnerId());
     }
 
     @Test
@@ -136,13 +135,12 @@ public class ProjectServiceTest {
         //when
         String expectedResult = "Updated Project";
         ProjectCreateOrUpdateDTO entityWithUpdatedString = new ProjectCreateOrUpdateDTO(expectedResult);
-        projectService.changeProjectName(entityWithUpdatedString, testId);
-        Optional<Project> optional = projectRepository.findById(testId);
-        Assertions.assertTrue(optional.isPresent());
-        Project actual = optional.get();
+        projectService.changeProjectName(entityWithUpdatedString
+                , projectRepository.findProjectByProjectName(testName).getId());
+        Project actual = projectRepository.findProjectByProjectName(expectedResult);
         //then
+        Assertions.assertNotNull(actual);
         Assertions.assertEquals(expectedResult, actual.getProjectName());
-        Assertions.assertEquals(testId, actual.getId());
         Assertions.assertThrows(ProjectNotFoundException.class, () ->
                 projectService.changeProjectName(entityWithUpdatedString, "000"));
     }
