@@ -5,14 +5,11 @@ import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
 import com.springweb.dv_spring_web_mongo.exception.BadRequestException;
 import com.springweb.dv_spring_web_mongo.exception.ProjectNotFoundException;
 import com.springweb.dv_spring_web_mongo.model.Project;
-import com.springweb.dv_spring_web_mongo.model.User;
 import com.springweb.dv_spring_web_mongo.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,17 +26,14 @@ public class ProjectServiceImpl implements ProjectService {
         List<Project> list = null;
         boolean paging = pageNumber != null;
         boolean filteringByProjectName = !(filterProjectName == null);
-
         if ((pageNumber == null && pageSize != null) || (pageNumber != null && pageSize == null)) {
             throw new BadRequestException("All parameters of page must be specified, or none");
         }
-
         if (pageNumber != null) {
             if ((pageNumber > 0 && pageSize < 1) || (pageNumber < 1 && pageSize > 0)) {
                 throw new BadRequestException("All parameters of page must be specified, or none");
             }
         }
-
         if (!filteringByProjectName && !paging) {
             list = projectRepository.findAll();
         } else if (filteringByProjectName && !paging) {
@@ -52,7 +46,6 @@ public class ProjectServiceImpl implements ProjectService {
             Page<Project> page = projectRepository.findAll(pageable);
             list = page.toList();
         }
-
         return list.stream().map(Project::convertToDTO).collect(Collectors.toList());
     }
 
@@ -60,11 +53,9 @@ public class ProjectServiceImpl implements ProjectService {
         return getById(id).convertToDTO();
     }
 
-    public void addNewProject(ProjectCreateOrUpdateDTO projectCreateOrUpdateDTO) {
+    public void addNewProject(ProjectCreateOrUpdateDTO projectCreateOrUpdateDTO, String ownerId) {
         Project project = projectCreateOrUpdateDTO.convertToProject();
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User loggedUser = (User) authentication.getPrincipal();
-        project.setOwnerId(loggedUser.getId());
+        project.setOwnerId(ownerId);
         projectRepository.save(project);
     }
 

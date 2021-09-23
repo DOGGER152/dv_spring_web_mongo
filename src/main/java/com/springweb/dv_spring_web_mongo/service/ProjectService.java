@@ -12,7 +12,7 @@ public interface ProjectService {
 
     List<ProjectDTO> getAllProjects(String filterProjectName, Integer pageSize, Integer pageNumber);
 
-    void addNewProject(ProjectCreateOrUpdateDTO projectCreateOrUpdateDTO);
+    void addNewProject(ProjectCreateOrUpdateDTO projectCreateOrUpdateDTO, String id);
 
     void changeProjectName(ProjectCreateOrUpdateDTO projectCreateOrUpdateDTO, String id);
 

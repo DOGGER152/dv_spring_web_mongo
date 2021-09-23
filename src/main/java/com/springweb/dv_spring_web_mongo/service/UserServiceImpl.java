@@ -23,23 +23,22 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     private final PasswordEncoder passwordEncoder;
 
     public void registerNewUser(UserCreateOrUpdateDTO userCreateOrUpdateDTO) {
-        checkIfUserExists(userCreateOrUpdateDTO);
+        checkIfUserNotExists(userCreateOrUpdateDTO);
         userCreateOrUpdateDTO.setPassword(passwordEncoder.encode(userCreateOrUpdateDTO.getPassword()));
         userCreateOrUpdateDTO.setRoleSet(Collections.singleton(Role.ROLE_USER));
         userRepository.save(userCreateOrUpdateDTO.convertToUser());
     }
 
     public void updatePassword(UserCreateOrUpdateDTO userCreateOrUpdateDTO) {
-
         User userToUpdate = userCreateOrUpdateDTO.convertToUser();
         userToUpdate.setPassword(passwordEncoder.encode(userCreateOrUpdateDTO.getPassword()));
         userRepository.save(userToUpdate);
     }
 
-    private void checkIfUserExists(UserCreateOrUpdateDTO dto) {
+    private void checkIfUserNotExists(UserCreateOrUpdateDTO dto) {
         Optional<User> optionalUser = userRepository.findUserByUsername(dto.getUserName());
-        if (optionalUser.isEmpty()) {
-            throw new UsernameNotFoundException("User '" + dto.getUserName() + "' not found");
+        if (optionalUser.isPresent()) {
+            throw new UsernameNotFoundException(String.format("User with name '%s' already exists", dto.getUserName()));
         }
     }
 
@@ -47,16 +46,14 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> optionalUser = userRepository.findUserByUsername(username);
         if (optionalUser.isEmpty()) {
-            throw new UsernameNotFoundException("User name with username '" + username + " not found");
+            throw new UsernameNotFoundException(String.format("User with name '%s' not found", username));
         }
         return optionalUser.get();
     }
 
     @PostConstruct
     private void createDefaultUsers() {
-
         createUserIfNotExists("user", "user", Role.ROLE_USER);
-
         createUserIfNotExists("admin", "admin", Role.ROLE_ADMIN);
     }
 

@@ -2,9 +2,11 @@ package com.springweb.dv_spring_web_mongo.controller;
 
 import com.springweb.dv_spring_web_mongo.dto.ProjectCreateOrUpdateDTO;
 import com.springweb.dv_spring_web_mongo.dto.ProjectDTO;
+import com.springweb.dv_spring_web_mongo.model.User;
 import com.springweb.dv_spring_web_mongo.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,7 +33,8 @@ public class ProjectController {
 
     @PostMapping()
     public void addNewProject(@Valid @RequestBody ProjectCreateOrUpdateDTO projectCreateOrUpdateDTO) {
-        projectService.addNewProject(projectCreateOrUpdateDTO);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        projectService.addNewProject(projectCreateOrUpdateDTO, user.getId());
     }
 
     @PutMapping("/{id}")

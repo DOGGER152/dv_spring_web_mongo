@@ -9,7 +9,6 @@ import com.springweb.dv_spring_web_mongo.model.Project;
 import com.springweb.dv_spring_web_mongo.repository.ProjectRepository;
 import com.springweb.dv_spring_web_mongo.service.ProjectService;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
@@ -125,15 +124,16 @@ public class ProjectServiceTest {
     }
 
     @Test
-    @Disabled
     public void addNewProjectTest() {
         //given
         projectRepository.deleteAll();
-        projectService.addNewProject(new ProjectCreateOrUpdateDTO(testProject.getProjectName()));
+        String testOwnerId = "TestOwnerId";
+        projectService.addNewProject(new ProjectCreateOrUpdateDTO(testProject.getProjectName()), testOwnerId);
         //when
         Project actual = projectRepository.findProjectByProjectName(testProject.getProjectName());
         //then
         Assertions.assertEquals(testProject.getProjectName(), actual.getProjectName());
+        Assertions.assertEquals(testProject.getOwnerId(), testOwnerId);
     }
 
     @Test
