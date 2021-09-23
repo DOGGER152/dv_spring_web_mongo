@@ -119,12 +119,12 @@ public class ProjectServiceTest {
         //given
         projectRepository.deleteAll();
         String testOwnerId = "TestOwnerId";
-        projectService.addNewProject(new ProjectCreateOrUpdateDTO(testProject.getProjectName()), testOwnerId);
+        projectService.addNewProject(new ProjectCreateOrUpdateDTO(testName), testOwnerId);
         //when
         Project actual = projectRepository.findProjectByProjectName(testProject.getProjectName());
         //then
         Assertions.assertEquals(testProject.getProjectName(), actual.getProjectName());
-        Assertions.assertEquals(testProject.getOwnerId(), testOwnerId);
+        Assertions.assertEquals(testOwnerId, actual.getOwnerId());
     }
 
     @Test
@@ -135,13 +135,11 @@ public class ProjectServiceTest {
         //when
         String expectedResult = "Updated Project";
         ProjectCreateOrUpdateDTO entityWithUpdatedString = new ProjectCreateOrUpdateDTO(expectedResult);
-        projectService.changeProjectName(entityWithUpdatedString, testId);
-        Optional<Project> optional = projectRepository.findById(testId);
-        Assertions.assertTrue(optional.isPresent());
-        Project actual = optional.get();
         projectService.changeProjectName(entityWithUpdatedString
                 , projectRepository.findProjectByProjectName(testName).getId());
+        Project actual = projectRepository.findProjectByProjectName(expectedResult);
         //then
+        Assertions.assertNotNull(actual);
         Assertions.assertEquals(expectedResult, actual.getProjectName());
         Assertions.assertThrows(ProjectNotFoundException.class, () ->
                 projectService.changeProjectName(entityWithUpdatedString, "000"));
