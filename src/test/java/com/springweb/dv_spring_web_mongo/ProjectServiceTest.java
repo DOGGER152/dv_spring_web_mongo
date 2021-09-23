@@ -15,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataM
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @SpringBootTest(classes = Config.class)
@@ -44,15 +45,15 @@ public class ProjectServiceTest {
         List<ProjectDTO> list1 = projectService.getAllProjects(null, null, null);
         ProjectDTO project = list1.get(0);
         //then
-        Assertions.assertTrue(list1.size() == 2);
-        Assertions.assertFalse(project == null);
+        Assertions.assertEquals(2, list1.size());
+        Assertions.assertNotNull(project);
         Assertions.assertEquals(testName, project.getProjectName());
         //when
         List<ProjectDTO> list2 = projectService.getAllProjects("another", null, null);
         ProjectDTO project2 = list2.get(0);
         //then
-        Assertions.assertTrue(list2.size() == 1);
-        Assertions.assertFalse(project2 == null);
+        Assertions.assertEquals(1, list2.size());
+        Assertions.assertNotNull(project2);
         Assertions.assertEquals(secondProjectName, project2.getProjectName());
     }
 
@@ -67,45 +68,37 @@ public class ProjectServiceTest {
         projectRepository.save(testProject2);
         projectRepository.save(testProject3);
         //when
-        List list1 = projectService.getAllProjects(null, 1, 1);
-        List list2 = projectService.getAllProjects(null, 2, 1);
-        List list3 = projectService.getAllProjects(null, 3, 1);
-        List list4 = projectService.getAllProjects(null, 2, 2);
-        List list5 = projectService.getAllProjects("nothing", null, null);
+        List<ProjectDTO> list1 = projectService.getAllProjects(null, 1, 1);
+        List<ProjectDTO> list2 = projectService.getAllProjects(null, 2, 1);
+        List<ProjectDTO> list3 = projectService.getAllProjects(null, 3, 1);
+        List<ProjectDTO> list4 = projectService.getAllProjects(null, 2, 2);
+        List<ProjectDTO> list5 = projectService.getAllProjects("nothing", null, null);
         //then
-        Assertions.assertTrue(list1.size() == 1);
-        Assertions.assertTrue(list2.size() == 2);
-        Assertions.assertTrue(list3.size() == 3);
-        Assertions.assertTrue(list4.size() == 1);
+        Assertions.assertEquals(1, list1.size());
+        Assertions.assertEquals(2, list2.size());
+        Assertions.assertEquals(3, list3.size());
+        Assertions.assertEquals(1, list4.size());
         Assertions.assertTrue(list5.isEmpty());
-        Assertions.assertFalse(list1.stream().anyMatch(e -> (e.equals(null))));
-        Assertions.assertFalse(list2.stream().anyMatch(e -> (e.equals(null))));
-        Assertions.assertFalse(list3.stream().anyMatch(e -> (e.equals(null))));
-        Assertions.assertFalse(list4.stream().anyMatch(e -> (e.equals(null))));
-        Assertions.assertThrows(BadRequestException.class, () -> {
-            projectService.getAllProjects(null, null, 2);
-        });
-        Assertions.assertThrows(BadRequestException.class, () -> {
-            projectService.getAllProjects(null, 1, null);
-        });
-        Assertions.assertThrows(BadRequestException.class, () -> {
-            projectService.getAllProjects(null, 0, 4);
-        });
-        Assertions.assertThrows(BadRequestException.class, () -> {
-            projectService.getAllProjects(null, 7, 0);
-        });
-        Assertions.assertThrows(BadRequestException.class, () -> {
-            projectService.getAllProjects("none", null, 2);
-        });
-        Assertions.assertThrows(BadRequestException.class, () -> {
-            projectService.getAllProjects("none", 5, null);
-        });
-        Assertions.assertThrows(BadRequestException.class, () -> {
-            projectService.getAllProjects("none", 0, 8);
-        });
-        Assertions.assertThrows(BadRequestException.class, () -> {
-            projectService.getAllProjects("none", 6, 0);
-        });
+        Assertions.assertFalse(list1.stream().anyMatch(Objects::isNull));
+        Assertions.assertFalse(list2.stream().anyMatch(Objects::isNull));
+        Assertions.assertFalse(list3.stream().anyMatch(Objects::isNull));
+        Assertions.assertFalse(list4.stream().anyMatch(Objects::isNull));
+        Assertions.assertThrows(BadRequestException.class, () ->
+                projectService.getAllProjects(null, null, 2));
+        Assertions.assertThrows(BadRequestException.class, () ->
+                projectService.getAllProjects(null, 1, null));
+        Assertions.assertThrows(BadRequestException.class, () ->
+                projectService.getAllProjects(null, 0, 4));
+        Assertions.assertThrows(BadRequestException.class, () ->
+                projectService.getAllProjects(null, 7, 0));
+        Assertions.assertThrows(BadRequestException.class, () ->
+                projectService.getAllProjects("none", null, 2));
+        Assertions.assertThrows(BadRequestException.class, () ->
+                projectService.getAllProjects("none", 5, null));
+        Assertions.assertThrows(BadRequestException.class, () ->
+                projectService.getAllProjects("none", 0, 8));
+        Assertions.assertThrows(BadRequestException.class, () ->
+                projectService.getAllProjects("none", 6, 0));
     }
 
     @Test
@@ -118,9 +111,7 @@ public class ProjectServiceTest {
         //then
         Assertions.assertEquals(testProject.getId(), actual.getId());
         Assertions.assertEquals(testProject.getProjectName(), actual.getProjectName());
-        Assertions.assertThrows(ProjectNotFoundException.class, () -> {
-            projectService.getProjectById("000");
-        });
+        Assertions.assertThrows(ProjectNotFoundException.class, () -> projectService.getProjectById("000"));
     }
 
     @Test
@@ -144,14 +135,16 @@ public class ProjectServiceTest {
         //when
         String expectedResult = "Updated Project";
         ProjectCreateOrUpdateDTO entityWithUpdatedString = new ProjectCreateOrUpdateDTO(expectedResult);
+        projectService.changeProjectName(entityWithUpdatedString, testId);
+        Optional<Project> optional = projectRepository.findById(testId);
+        Assertions.assertTrue(optional.isPresent());
+        Project actual = optional.get();
         projectService.changeProjectName(entityWithUpdatedString
                 , projectRepository.findProjectByProjectName(testName).getId());
-        Project actual = projectRepository.findProjectByProjectName(expectedResult);
         //then
         Assertions.assertEquals(expectedResult, actual.getProjectName());
-        Assertions.assertThrows(ProjectNotFoundException.class, () -> {
-            projectService.changeProjectName(null, "000");
-        });
+        Assertions.assertThrows(ProjectNotFoundException.class, () ->
+                projectService.changeProjectName(entityWithUpdatedString, "000"));
     }
 
     @Test
@@ -161,11 +154,10 @@ public class ProjectServiceTest {
         projectRepository.save(testProject);
         //when
         projectService.deleteProject(testProject.getId());
-        Optional optional = projectRepository.findById(testProject.getId());
+        Optional<Project> optional = projectRepository.findById(testProject.getId());
         //then
         Assertions.assertTrue(optional.isEmpty());
-        Assertions.assertThrows(ProjectNotFoundException.class, () -> {
-            projectService.deleteProject("000");
-        });
+        Assertions.assertThrows(ProjectNotFoundException.class, () ->
+                projectService.deleteProject("000"));
     }
 }

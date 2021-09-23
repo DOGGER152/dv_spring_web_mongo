@@ -1,18 +1,20 @@
 package com.springweb.dv_spring_web_mongo.configuration;
 
 import com.mongodb.ConnectionString;
-import com.mongodb.client.MongoClient;
 import com.mongodb.MongoClientSettings;
+import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.data.repository.PagingAndSortingRepository;
 
-import java.awt.print.Pageable;
-
-@PropertySource("classpath:application.properties")
+@PropertySources({@PropertySource(value = "classpath:application1.properties")
+        , @PropertySource(value = "classpath:custom.application.properties", ignoreResourceNotFound = true)
+})
 @Configuration
 @EnableMongoRepositories(basePackages = "com.springweb.dv_spring_web_mongo.repository")
 public class Config {
