@@ -25,19 +25,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/user/register").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/users/register").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable();
     }
-
-
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth
-//                .userDetailsService(new UserServiceImpl())
-//                .passwordEncoder(passwordEncoder());
-//    }
-
 
 }
