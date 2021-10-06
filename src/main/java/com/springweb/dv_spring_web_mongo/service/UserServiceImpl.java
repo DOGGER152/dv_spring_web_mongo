@@ -36,9 +36,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     private void checkIfUserNotExists(UserCreateOrUpdateDTO dto) {
-        Optional<User> optionalUser = userRepository.findUserByUsername(dto.getUserName());
+        Optional<User> optionalUser = userRepository.findUserByUsername(dto.getUsername());
         if (optionalUser.isPresent()) {
-            throw new UsernameNotFoundException(String.format("User with name '%s' already exists", dto.getUserName()));
+            throw new UsernameNotFoundException(String.format("User with name '%s' already exists", dto.getUsername()));
         }
     }
 

@@ -16,7 +16,7 @@ import java.util.Set;
 public class UserCreateOrUpdateDTO {
     @NotNull
     @NonNull
-    private String userName;
+    private String username;
 
     @NotNull
     @NonNull
@@ -25,6 +25,6 @@ public class UserCreateOrUpdateDTO {
     private Set<Role> roleSet;
 
     public User convertToUser() {
-        return new User(userName, password, roleSet);
+        return new User(username, password, roleSet);
     }
 }
