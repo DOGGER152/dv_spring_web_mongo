@@ -18,7 +18,6 @@ import java.io.IOException;
 public class JwtFilter extends GenericFilterBean {
 
     private JwtProvider jwtProvider;
-
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain) throws IOException, ServletException {
         String token = jwtProvider.resolveToken((HttpServletRequest) req);
@@ -28,7 +27,8 @@ public class JwtFilter extends GenericFilterBean {
             if (auth != null) {
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
-            filterChain.doFilter(req, res);
+
         }
+        filterChain.doFilter(req, res);
     }
 }

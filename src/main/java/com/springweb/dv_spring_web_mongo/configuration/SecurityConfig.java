@@ -13,6 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -28,18 +29,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
         http
                 .httpBasic().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/users/register").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers(HttpMethod.POST, "/api/users/login").permitAll()
+                .anyRequest().permitAll()
                 .and()
-                .csrf().and().cors().disable()
+                .csrf().disable().cors().disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .apply(new JwtConfigurer(jwtProvider));
+                .apply(new JwtConfigurer(jwtProvider))
+        ;
+
     }
 
 }
