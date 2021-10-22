@@ -42,6 +42,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public ResponseEntity<Map<Object, Object>> loginWithToken(UserCreateOrUpdateDTO dto) {
+
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword()));
         Optional<User> optional = userRepository.findUserByUsername(dto.getUsername());
         if (optional.isEmpty()) {

@@ -1,4 +1,4 @@
-package com.springweb.dv_spring_web_mongo.exception.handling;
+package com.springweb.dv_spring_web_mongo.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

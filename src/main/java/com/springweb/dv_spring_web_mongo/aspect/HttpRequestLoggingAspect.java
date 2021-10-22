@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 @Log4j2
 public class HttpRequestLoggingAspect {
 
+
     private final HttpServletRequest request;
 
     @Around("@annotation(org.springframework.web.bind.annotation.GetMapping)" +
@@ -29,9 +30,11 @@ public class HttpRequestLoggingAspect {
         log.debug("HTTP request type: " + request.getMethod());
         log.debug("Request URI: " + request.getRequestURI());
         log.debug("Client IP: " + request.getRemoteAddr());
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.isAuthenticated()) {
-            log.info("User: " + authentication.getName());
+        if (SecurityContextHolder.getContext().getAuthentication() != null) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication.isAuthenticated()) {
+                log.info("User: " + authentication.getName());
+            }
         }
         StopWatch stopWatch = new StopWatch();
         Object object = null;

@@ -1,6 +1,7 @@
 package com.springweb.dv_spring_web_mongo.exception.handling;
 
 import com.springweb.dv_spring_web_mongo.exception.BadRequestException;
+import com.springweb.dv_spring_web_mongo.exception.ProjectIncorrectData;
 import com.springweb.dv_spring_web_mongo.exception.ProjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
