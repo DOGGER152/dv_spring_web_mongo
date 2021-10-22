@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Set;
 
@@ -25,10 +27,10 @@ public class JwtProvider {
     @Value("${jwt.token.secret}")
     String secret;
 
-//    @PostConstruct
-//    protected void init() {
-//        secret = Base64.getEncoder().encodeToString(secret.getBytes());
-//    }
+    @PostConstruct
+    protected void init() {
+        secret = Base64.getEncoder().encodeToString(secret.getBytes());
+    }
 
     public String createToken(String username, Set<Role> list) {
         Claims claims = Jwts.claims().setSubject(username);
