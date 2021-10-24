@@ -1,5 +1,6 @@
 package com.springweb.dv_spring_web_mongo.security.jwt;
 
+import com.springweb.dv_spring_web_mongo.exception.JwtTokenException;
 import com.springweb.dv_spring_web_mongo.model.Role;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
@@ -71,7 +72,7 @@ public class JwtProvider {
                 return false;
             }
         } catch (JwtException | IllegalArgumentException e) {
-            throw new JwtException("JWT token invalid or expired");
+            throw new JwtTokenException("JWT token invalid or expired");
         }
         return true;
     }

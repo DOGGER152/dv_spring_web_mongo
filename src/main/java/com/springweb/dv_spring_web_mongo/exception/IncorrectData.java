@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProjectIncorrectData {
+public class IncorrectData {
     private String errorMessage;
 }

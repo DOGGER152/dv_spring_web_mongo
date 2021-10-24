@@ -14,6 +14,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.servlet.http.HttpServletResponse;
+
 
 @Configuration
 @EnableWebSecurity
@@ -41,6 +43,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .apply(new JwtConfigurer(jwtProvider))
+                .and()
+                .exceptionHandling().authenticationEntryPoint(
+                        ((request, response, ex) -> {
+                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
+                        }))
         ;
 
     }
